@@ -1,28 +1,35 @@
 import axios from "axios";
 import React, { Component } from "react";
+import Viewer from "../components/Viewer";
 
 function formatPosts(posts) {
-  return posts.map(post => {
-    const { author, score, created, stickied, num_comments } = post.data;
+  return posts.map(({ data: post }) => {
     return {
-      author,
-      score,
-      created,
-      stickied,
-      commentsCount: num_comments
+      id: post.id,
+      author: post.author,
+      commentsCount: post.num_comments,
+      created: post.created,
+      score: post.score,
+      selfText: post.selftext,
+      stickied: post.stickied,
+      title: post.title,
+      url: post.url
     };
   });
 }
 
 function formatComments(comments) {
   return comments
-    ? comments.map(comment => {
-        const { author, score, created, replies } = comment.data;
+    ? comments.map(({ data: comment }) => {
         return {
-          author,
-          score,
-          created,
-          comments: replies ? formatComments(replies.data.children) : []
+          id: comment.id,
+          author: comment.author,
+          body: comment.body,
+          comments: comment.replies
+            ? formatComments(comment.replies.data.children)
+            : [],
+          created: comment.created,
+          score: comment.score
         };
       })
     : [];
@@ -34,6 +41,7 @@ class HomePage extends Component {
 
     if (!subreddit) {
       return {
+        subreddit,
         posts: null,
         expandedPost: null,
         error: null
@@ -42,21 +50,12 @@ class HomePage extends Component {
 
     try {
       let fetchRequest = [
-        axios(`https://www.reddit.com/r/${subreddit}/hot.json?limit=10`, {
-          headers: {
-            "User-Agent": "sleddit:1.0.0 (by /u/instacl)"
-          }
-        })
+        axios(`https://www.reddit.com/r/${subreddit}/hot.json?limit=10`)
       ];
       if (post) {
         fetchRequest.push(
           axios(
-            `https://www.reddit.com/r/${subreddit}/comments/${post}.json?limit=5&depth=1`,
-            {
-              headers: {
-                "User-Agent": "sleddit:1.0.0 (by /u/instacl)"
-              }
-            }
+            `https://www.reddit.com/r/${subreddit}/comments/${post}.json?limit=5&depth=1`
           )
         );
       }
@@ -72,6 +71,7 @@ class HomePage extends Component {
         : null;
 
       return {
+        subreddit,
         posts,
         expandedPost,
         error: null
@@ -79,16 +79,32 @@ class HomePage extends Component {
     } catch (err) {
       console.error(err);
       return {
+        subreddit,
         posts: null,
         expandedPost: null,
-        error: err
+        error: err.message || err
       };
     }
   }
 
   render() {
-    const { error, posts, expandedPost } = this.props;
-    return <div>Ready</div>;
+    const { subreddit, error, posts, expandedPost } = this.props;
+    return (
+      <>
+        <Viewer
+          subreddit={subreddit}
+          posts={posts}
+          expandedPost={expandedPost}
+        />
+        {error && (
+          <div>
+            ERROR:
+            <br />
+            {error}
+          </div>
+        )}
+      </>
+    );
   }
 }
 
