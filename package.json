@@ -8,7 +8,6 @@
   "license": "MIT",
   "private": false,
   "scripts": {
-    "precommit": "pretty-quick --staged",
     "dev": "next",
     "build": "next build",
     "export": "yarn build && next export -o build",
@@ -30,5 +29,10 @@
   },
   "resolutions": {
     "ajv": "6.5.5"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "pretty-quick --staged"
+    }
   }
 }
