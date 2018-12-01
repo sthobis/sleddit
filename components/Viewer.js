@@ -9,7 +9,7 @@ class Viewer extends Component {
     const { subreddit, posts, expandedPost } = this.props;
 
     return (
-      <div>
+      <div className="root">
         <Sidebar subreddit={subreddit} />
         <PostList subreddit={subreddit} posts={posts} />
         {expandedPost && (
@@ -19,10 +19,20 @@ class Viewer extends Component {
           />
         )}
         <style jsx>{`
-          div {
+          .root {
             display: flex;
             align-items: stretch;
             min-height: 100vh;
+          }
+        `}</style>
+        <style jsx global>{`
+          body {
+            margin: 0;
+            font-family: Lato, sans-serif;
+            font-size: 15px;
+            font-variant-ligatures: common-ligatures;
+            -moz-osx-font-smoothing: grayscale;
+            -webkit-font-smoothing: antialiased;
           }
         `}</style>
       </div>
