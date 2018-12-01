@@ -28,6 +28,9 @@ class Viewer extends Component {
             align-items: stretch;
             min-height: 100vh;
           }
+          main {
+            width: 100%;
+          }
         `}</style>
         <style jsx global>{`
           body {

@@ -8,7 +8,7 @@ function formatPosts(posts) {
       id: post.id,
       author: post.author,
       commentsCount: post.num_comments,
-      created: post.created,
+      created: post.created_utc,
       score: post.score,
       selfText: post.selftext,
       stickied: post.stickied,
@@ -28,7 +28,7 @@ function formatComments(comments) {
           comments: comment.replies
             ? formatComments(comment.replies.data.children)
             : [],
-          created: comment.created,
+          created: comment.created_utc,
           score: comment.score
         };
       })
