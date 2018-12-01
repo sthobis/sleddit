@@ -21,7 +21,7 @@ class Sidebar extends Component {
   render() {
     const { subreddits } = this.state;
     return (
-      <div className="root">
+      <aside className="root">
         <section>
           <div className="team hover">
             <NotificationIcon />
@@ -268,7 +268,7 @@ class Sidebar extends Component {
             margin: 2px 6px 0 0;
           }
         `}</style>
-      </div>
+      </aside>
     );
   }
 }

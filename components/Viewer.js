@@ -1,5 +1,6 @@
 import PropTypes from "prop-types";
 import React, { Component } from "react";
+import AppBar from "./AppBar";
 import PostDetail from "./PostDetail";
 import PostList from "./PostList";
 import Sidebar from "./Sidebar";
@@ -11,13 +12,16 @@ class Viewer extends Component {
     return (
       <div className="root">
         <Sidebar subreddit={subreddit} />
-        <PostList subreddit={subreddit} posts={posts} />
-        {expandedPost && (
-          <PostDetail
-            post={expandedPost.post}
-            comments={expandedPost.comments}
-          />
-        )}
+        <main>
+          <AppBar subreddit={subreddit} />
+          <PostList subreddit={subreddit} posts={posts} />
+          {expandedPost && (
+            <PostDetail
+              post={expandedPost.post}
+              comments={expandedPost.comments}
+            />
+          )}
+        </main>
         <style jsx>{`
           .root {
             display: flex;
@@ -40,8 +44,12 @@ class Viewer extends Component {
   }
 }
 
+Viewer.defaultProps = {
+  subreddit: "all"
+};
+
 Viewer.propTypes = {
-  subreddit: PropTypes.string,
+  subreddit: PropTypes.string.isRequired,
   posts: PropTypes.arrayOf(PropTypes.object),
   expandedPost: PropTypes.shape({
     post: PropTypes.object.isRequired,
