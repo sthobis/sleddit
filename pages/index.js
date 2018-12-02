@@ -52,7 +52,7 @@ class HomePage extends Component {
 
     try {
       let fetchRequest = [
-        axios(`https://www.reddit.com/r/${subreddit}/hot.json?limit=10`)
+        axios(`https://www.reddit.com/r/${subreddit}/hot.json?limit=20`)
       ];
       if (post) {
         fetchRequest.push(
