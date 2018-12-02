@@ -1,7 +1,6 @@
 import format from "date-fns/format";
 import PropTypes from "prop-types";
 import React, { Component } from "react";
-import { StarIcon } from "./Icons";
 
 class CommentItem extends Component {
   render() {
@@ -12,10 +11,7 @@ class CommentItem extends Component {
     return (
       <div className="comment-item">
         <div className="comment-info">
-          <span>
-            <StarIcon />
-            {score > 1000 ? `${(score / 1000).toFixed(0)}k` : score}
-          </span>
+          <span>{format(created * 1000, "MMM D YY h:mm A")}</span>
         </div>
         <img
           className="comment-author-thumbnail"
@@ -24,8 +20,8 @@ class CommentItem extends Component {
         <div>
           <div>
             <span className="comment-author-username">{author}</span>
-            <span className="comment-timestamp">
-              {format(created * 1000, "YYYY-MM-DD h:mm A")}
+            <span className="comment-score">
+              {score > 1000 ? `${(score / 1000).toFixed(0)}k` : score} points
             </span>
           </div>
           <p className="comment-body">{body}</p>
@@ -93,7 +89,7 @@ class CommentItem extends Component {
             text-transform: lowercase;
           }
 
-          .comment-timestamp {
+          .comment-score {
             font-size: 12px;
             color: #717274;
           }

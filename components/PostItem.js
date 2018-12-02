@@ -2,7 +2,7 @@ import format from "date-fns/format";
 import Router from "next/router";
 import PropTypes from "prop-types";
 import React, { Component } from "react";
-import { MessageIcon, StarIcon } from "./Icons";
+import { MessageIcon } from "./Icons";
 
 class PostItem extends Component {
   expandPost = id => {
@@ -19,13 +19,10 @@ class PostItem extends Component {
       <div className="post-item" onClick={() => this.expandPost(id)}>
         <div className="post-info">
           <span>
-            <StarIcon />
-            {score > 1000 ? `${(score / 1000).toFixed(0)}k` : score}
-          </span>
-          <span>
             <MessageIcon />
             {commentsCount}
           </span>
+          <span>{format(created * 1000, "MMM D YY h:mm A")}</span>
         </div>
         <img
           className="post-author-thumbnail"
@@ -34,8 +31,8 @@ class PostItem extends Component {
         <div className="post-content">
           <div>
             <span className="post-author-username">{author}</span>
-            <span className="post-timestamp">
-              {format(created * 1000, "YYYY-MM-DD h:mm A")}
+            <span className="post-score">
+              {score > 1000 ? `${(score / 1000).toFixed(0)}k` : score} points
             </span>
           </div>
           <div className="post-body">
@@ -120,7 +117,7 @@ class PostItem extends Component {
             text-transform: lowercase;
           }
 
-          .post-timestamp {
+          .post-score {
             font-size: 12px;
             color: #717274;
           }
