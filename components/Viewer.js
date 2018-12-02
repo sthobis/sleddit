@@ -12,15 +12,18 @@ class Viewer extends Component {
     return (
       <div className="root">
         <Sidebar subreddit={subreddit} />
-        <main>
+        <main className="content">
           <AppBar subreddit={subreddit} />
-          <PostList subreddit={subreddit} posts={posts} />
-          {expandedPost && (
-            <PostDetail
-              post={expandedPost.post}
-              comments={expandedPost.comments}
-            />
-          )}
+          <div className="row">
+            <PostList subreddit={subreddit} posts={posts} />
+            {expandedPost && (
+              <PostDetail
+                subreddit={subreddit}
+                post={expandedPost.post}
+                comments={expandedPost.comments}
+              />
+            )}
+          </div>
         </main>
         <style jsx>{`
           .root {
@@ -28,8 +31,14 @@ class Viewer extends Component {
             align-items: stretch;
             min-height: 100vh;
           }
-          main {
+
+          .content {
             width: 100%;
+          }
+
+          .row {
+            display: flex;
+            align-items: stretch;
           }
         `}</style>
         <style jsx global>{`

@@ -20,18 +20,20 @@ function formatPosts(posts) {
 
 function formatComments(comments) {
   return comments
-    ? comments.map(({ data: comment }) => {
-        return {
-          id: comment.id,
-          author: comment.author,
-          body: comment.body,
-          comments: comment.replies
-            ? formatComments(comment.replies.data.children)
-            : [],
-          created: comment.created_utc,
-          score: comment.score
-        };
-      })
+    ? comments
+        .filter(({ kind }) => kind !== "more")
+        .map(({ data: comment }) => {
+          return {
+            id: comment.id,
+            author: comment.author,
+            body: comment.body,
+            comments: comment.replies
+              ? formatComments(comment.replies.data.children)
+              : [],
+            created: comment.created_utc,
+            score: comment.score
+          };
+        })
     : [];
 }
 
@@ -55,7 +57,7 @@ class HomePage extends Component {
       if (post) {
         fetchRequest.push(
           axios(
-            `https://www.reddit.com/r/${subreddit}/comments/${post}.json?limit=5&depth=1`
+            `https://www.reddit.com/r/${subreddit}/comments/${post}.json?limit=20&depth=1`
           )
         );
       }

@@ -3,6 +3,7 @@ import React, { Component } from "react";
 import {
   AtIcon,
   EditIcon,
+  HashIcon,
   InfoIcon,
   LockIcon,
   MoreIcon,
@@ -21,7 +22,7 @@ class AppBar extends Component {
       <div className="root">
         <div className="subreddit">
           <div className="subreddit-name">
-            <LockIcon />
+            {subreddit === "all" ? <LockIcon /> : <HashIcon />}
             {subreddit}
           </div>
           <ul className="subreddit-info">
