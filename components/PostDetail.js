@@ -43,6 +43,7 @@ class PostDetail extends Component {
                 index={1}
                 type="comment"
               />
+              <div className="separator">replies</div>
               <CommentList comments={comments} />
             </article>
             <ReplyBar id="reply-comment" type="comment" />
@@ -143,6 +144,23 @@ class PostDetail extends Component {
           .post :global(.post-info) {
             top: 8px;
             right: 21px;
+          }
+
+          .separator {
+            display: flex;
+            align-items: center;
+            color: #717274;
+            font-size: 12px;
+            padding: 6px 21px 6px 11px;
+          }
+
+          .separator::after {
+            content: "";
+            flex: 1;
+            width: 100%;
+            height: 1px;
+            background: rgba(0, 0, 0, 0.1);
+            margin: 2px 0 0 10px;
           }
 
           @media screen and (max-width: 1440px) {
