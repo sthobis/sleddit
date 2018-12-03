@@ -29,16 +29,21 @@ class Viewer extends Component {
           .root {
             display: flex;
             align-items: stretch;
-            min-height: 100vh;
+            height: 100vh;
           }
 
           .content {
+            display: flex;
+            flex-direction: column;
             width: 100%;
+            height: 100vh;
           }
 
           .row {
             display: flex;
             align-items: stretch;
+            flex: 1;
+            overflow-y: auto;
           }
         `}</style>
         <style jsx global>{`

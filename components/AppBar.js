@@ -67,6 +67,7 @@ class AppBar extends Component {
         </ul>
         <style jsx>{`
           .root {
+            flex-shrink: 0;
             display: flex;
             justify-content: space-between;
             align-items: stretch;

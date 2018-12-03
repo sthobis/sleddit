@@ -44,7 +44,7 @@ class CommentItem extends Component {
             position: relative;
             display: flex;
             align-items: flex-start;
-            padding: 7px 11px;
+            padding: 7px 21px;
             color: #2c2d30;
             cursor: pointer;
           }
@@ -56,7 +56,7 @@ class CommentItem extends Component {
           .comment-info {
             position: absolute;
             top: -8px;
-            right: 27px;
+            right: 21px;
             display: none;
             align-items: center;
             background: #fff;

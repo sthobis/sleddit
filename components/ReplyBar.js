@@ -32,10 +32,10 @@ class ReplyBox extends Component {
             border-style: solid;
             border-width: ${type === "post" ? "2px" : "1px"};
             border-radius: ${type === "post" ? "6px" : "4px"};
-            margin-top: 6px;
+            margin-top: 0;
             margin-left: ${type === "post" ? "20px" : "10px"};
-            margin-right: ${type === "post" ? "20px" : "10px"};
-            margin-bottom: 20px;
+            margin-right: ${type === "post" ? "20px" : "20px"};
+            margin-bottom: ${type === "post" ? "20px" : "65px"};
           }
 
           .root :global(svg) {

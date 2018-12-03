@@ -1,6 +1,7 @@
 import Link from "next/link";
 import PropTypes from "prop-types";
 import React, { Component } from "react";
+import { Scrollbars } from "react-custom-scrollbars";
 import CommentList from "./CommentList";
 import { HashIcon, LockIcon, PlusIcon } from "./Icons";
 import PostItem from "./PostItem";
@@ -25,19 +26,34 @@ class PostDetail extends Component {
             </a>
           </Link>
         </div>
-        <article className="post">
-          <PostItem
-            subreddit={subreddit}
-            post={post}
-            index={1}
-            type="comment"
-          />
-          <CommentList comments={comments} />
-        </article>
-        <ReplyBar id="reply-comment" type="comment" />
+        <div className="scroll-container">
+          <Scrollbars
+            style={{ height: "100%" }}
+            renderThumbVertical={props => (
+              <div {...props} className="thumb-vertical" />
+            )}
+            renderTrackVertical={props => (
+              <div {...props} className="track-vertical" />
+            )}
+          >
+            <article className="post">
+              <PostItem
+                subreddit={subreddit}
+                post={post}
+                index={1}
+                type="comment"
+              />
+              <CommentList comments={comments} />
+            </article>
+            <ReplyBar id="reply-comment" type="comment" />
+          </Scrollbars>
+        </div>
         <style jsx>{`
           .root {
             width: 492px;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
             flex-shrink: 0;
             border-left: 1px solid rgba(0, 0, 0, 0.1);
           }
@@ -45,6 +61,8 @@ class PostDetail extends Component {
           .heading {
             display: flex;
             align-items: center;
+            flex-shrink: 0;
+            flex-grow: 0;
             padding: 19px 12px;
             background: #f9f9f9;
             border-bottom: 1px solid rgba(0, 0, 0, 0.1);
@@ -93,9 +111,28 @@ class PostDetail extends Component {
             transform: rotateZ(45deg);
           }
 
+          .scroll-container {
+            flex: 1;
+          }
+
+          .scroll-container :global(.thumb-vertical) {
+            border-radius: 4px;
+            width: 8px !important;
+            background-color: #8b8b8d;
+          }
+
+          .scroll-container :global(.track-vertical) {
+            border-radius: 4px;
+            top: 4px;
+            bottom: 4px;
+            right: 4px;
+            width: 8px !important;
+            background-color: #f3f3f3;
+          }
+
           .post :global(.post-item) {
             padding-left: 11px;
-            padding-right: 11px;
+            padding-right: 21px;
           }
 
           .post :global(.post-url-image) {
@@ -103,10 +140,9 @@ class PostDetail extends Component {
             max-height: none;
           }
 
-          .post :global(.post-info),
-          .post :global(.comment-info) {
+          .post :global(.post-info) {
             top: 8px;
-            right: 5px;
+            right: 21px;
           }
 
           @media screen and (max-width: 1440px) {
