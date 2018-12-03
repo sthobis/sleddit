@@ -28,6 +28,7 @@ class PostDetail extends Component {
         </div>
         <div className="scroll-container">
           <Scrollbars
+            universal
             style={{ height: "100%" }}
             renderThumbVertical={props => (
               <div {...props} className="thumb-vertical" />

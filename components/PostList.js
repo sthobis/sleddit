@@ -12,6 +12,7 @@ class PostList extends Component {
       <div className="root">
         <div className="scroll-container">
           <Scrollbars
+            universal
             autoHide
             style={{ height: "100%" }}
             renderThumbVertical={props => (
