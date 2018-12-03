@@ -4,6 +4,16 @@ import PropTypes from "prop-types";
 import React, { Component } from "react";
 import { MessageIcon } from "./Icons";
 
+function unescape(str) {
+  let result = str.replace(/&gt;/g, ">");
+  result = result.replace(/&lt;/g, "<");
+  result = result.replace(/&quot;/g, '"');
+  result = result.replace(/&apos;/g, "'");
+  result = result.replace(/&amp;/g, "&");
+  result = result.replace(/&#x200B;/g, "");
+  return result;
+}
+
 class PostItem extends Component {
   expandPost = id => {
     const { subreddit } = this.props;
@@ -12,7 +22,8 @@ class PostItem extends Component {
 
   render() {
     const {
-      post: { id, author, commentsCount, created, score, title, url },
+      type,
+      post: { id, author, commentsCount, created, score, selfText, title, url },
       index
     } = this.props;
     return (
@@ -37,7 +48,7 @@ class PostItem extends Component {
           </div>
           <div className="post-body">
             <p className="post-title">{title}</p>
-            {/\.(gif|gifv|jpe?g|tiff|png)$/i.test(url) ? (
+            {type === "comment" && /\.(gif|gifv|jpe?g|tiff|png)$/i.test(url) ? (
               <img
                 className="post-url-image"
                 alt={title}
@@ -47,6 +58,12 @@ class PostItem extends Component {
               <a className="post-url-text" href={url}>
                 {url.length <= 40 ? url : url.substring(0, 40) + "..."}
               </a>
+            )}
+            {selfText && type === "comment" && (
+              <div
+                className="post-self-text reddit-markup"
+                dangerouslySetInnerHTML={{ __html: unescape(selfText) }}
+              />
             )}
           </div>
         </div>
@@ -143,24 +160,33 @@ class PostItem extends Component {
             color: #0576b9;
             text-decoration: none;
           }
+
+          .post-self-text {
+            margin: 5px 0 0 0;
+          }
         `}</style>
       </div>
     );
   }
 }
 
+PostItem.defaultProps = {
+  type: "post"
+};
+
 PostItem.propTypes = {
   subreddit: PropTypes.string.isRequired,
+  type: PropTypes.oneOf(["post", "comment"]).isRequired,
   post: PropTypes.shape({
     id: PropTypes.string.isRequired,
     author: PropTypes.string.isRequired,
     commentsCount: PropTypes.number.isRequired,
     created: PropTypes.number.isRequired,
     score: PropTypes.number.isRequired,
-    selfText: PropTypes.string.isRequired,
     stickied: PropTypes.bool.isRequired,
     title: PropTypes.string.isRequired,
-    url: PropTypes.string.isRequired
+    url: PropTypes.string.isRequired,
+    selfText: PropTypes.string
   }).isRequired,
   index: PropTypes.number.isRequired
 };

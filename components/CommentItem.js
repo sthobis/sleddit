@@ -34,8 +34,8 @@ class CommentItem extends Component {
               {score > 1000 ? `${(score / 1000).toFixed(0)}k` : score} points
             </span>
           </div>
-          <p
-            className="comment-body"
+          <div
+            className="comment-body reddit-markup"
             dangerouslySetInnerHTML={{ __html: unescape(body) }}
           />
         </div>
@@ -111,39 +111,6 @@ class CommentItem extends Component {
             margin: 4px 0 0 0;
             font-size: 15px;
             line-height: 1.46668;
-          }
-
-          .comment-body :global(p) {
-            margin: 0;
-          }
-
-          .comment-body :global(* + p) {
-            margin-top: 5px;
-          }
-
-          .comment-body :global(p:empty) {
-            display: none;
-          }
-
-          .comment-body :global(a) {
-            color: #0576b9;
-            word-break: break-all;
-          }
-
-          .comment-body :global(a:visited) {
-            color: #0576b9;
-          }
-
-          .comment-body :global(ul),
-          .comment-body :global(ol) {
-            margin: 0;
-            padding-left: 20px;
-          }
-
-          .comment-body :global(blockquote) {
-            margin: 5px 0 0 0;
-            border-left: 3px solid rgba(0, 0, 0, 0.15);
-            padding: 0 0 0 8px;
           }
         `}</style>
       </div>

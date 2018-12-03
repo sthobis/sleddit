@@ -10,7 +10,7 @@ function formatPosts(posts) {
       commentsCount: post.num_comments,
       created: post.created_utc,
       score: post.score,
-      selfText: post.selftext,
+      selfText: post.selftext_html,
       stickied: post.stickied,
       title: post.title,
       url: post.url

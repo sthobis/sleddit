@@ -45,6 +45,7 @@ class Viewer extends Component {
           * {
             box-sizing: border-box;
           }
+
           body {
             margin: 0;
             font-family: Lato, sans-serif;
@@ -52,6 +53,39 @@ class Viewer extends Component {
             font-variant-ligatures: common-ligatures;
             -moz-osx-font-smoothing: grayscale;
             -webkit-font-smoothing: antialiased;
+          }
+
+          .reddit-markup :global(p) {
+            margin: 0;
+          }
+
+          .reddit-markup :global(* + p) {
+            margin-top: 5px;
+          }
+
+          .reddit-markup :global(p:empty) {
+            display: none;
+          }
+
+          .reddit-markup :global(a) {
+            color: #0576b9;
+            word-break: break-all;
+          }
+
+          .reddit-markup :global(a:visited) {
+            color: #0576b9;
+          }
+
+          .reddit-markup :global(ul),
+          .reddit-markup :global(ol) {
+            margin: 0;
+            padding-left: 20px;
+          }
+
+          .reddit-markup :global(blockquote) {
+            margin: 5px 0 0 0;
+            border-left: 3px solid rgba(0, 0, 0, 0.15);
+            padding: 0 0 0 8px;
           }
         `}</style>
       </div>

@@ -4,18 +4,18 @@ import { AtIcon, PlusIcon } from "./Icons";
 
 class ReplyBox extends Component {
   render() {
-    const { id, style, subreddit } = this.props;
+    const { id, type, subreddit } = this.props;
     return (
       <div className="root">
         <span className="attachment">
           <PlusIcon />
         </span>
-        <label for={id}>Reply</label>
+        <label htmlFor={id}>Reply</label>
         <input
           type="text"
           defaultValue=""
           placeholder={
-            style === "post" && subreddit ? `Message #${subreddit}` : "Reply.."
+            type === "post" && subreddit ? `Message #${subreddit}` : "Reply.."
           }
         />
         <span className="mention">
@@ -26,36 +26,36 @@ class ReplyBox extends Component {
             display: flex;
             justify-content: space-between;
             align-items: stretch;
-            border-color: ${style === "post"
+            border-color: ${type === "post"
               ? "rgba(145, 145, 147, 0.7)"
               : "#919193"};
             border-style: solid;
-            border-width: ${style === "post" ? "2px" : "1px"};
-            border-radius: ${style === "post" ? "6px" : "4px"};
+            border-width: ${type === "post" ? "2px" : "1px"};
+            border-radius: ${type === "post" ? "6px" : "4px"};
             margin-top: 6px;
-            margin-left: ${style === "post" ? "20px" : "10px"};
-            margin-right: ${style === "post" ? "20px" : "10px"};
+            margin-left: ${type === "post" ? "20px" : "10px"};
+            margin-right: ${type === "post" ? "20px" : "10px"};
             margin-bottom: 20px;
           }
 
           .root :global(svg) {
             width: 22px;
             height: 22px;
-            fill: ${style === "post" ? "rgba(145, 145, 147, 0.7)" : "#919193"};
+            fill: ${type === "post" ? "rgba(145, 145, 147, 0.7)" : "#919193"};
           }
 
           .attachment {
             display: flex;
-            width: ${style === "post" ? "40px" : "34px"};
-            height: ${style === "post" ? "40px" : "34px"};
+            width: ${type === "post" ? "40px" : "34px"};
+            height: ${type === "post" ? "40px" : "34px"};
             justify-content: center;
             align-items: center;
             flex-shrink: 0;
             border-right-style: solid;
-            border-right-color: ${style === "post"
+            border-right-color: ${type === "post"
               ? "rgba(145, 145, 147, 0.7)"
               : "#919193"};
-            border-right-width: ${style === "post" ? "2px" : "1px"};
+            border-right-width: ${type === "post" ? "2px" : "1px"};
           }
 
           label {
@@ -65,7 +65,7 @@ class ReplyBox extends Component {
 
           input {
             width: 100%;
-            height: ${style === "post" ? "40px" : "34px"};
+            height: ${type === "post" ? "40px" : "34px"};
             padding: 6px 10px;
             border: none;
             outline: none;
@@ -79,8 +79,8 @@ class ReplyBox extends Component {
 
           .mention {
             display: flex;
-            width: ${style === "post" ? "40px" : "34px"};
-            height: ${style === "post" ? "40px" : "34px"};
+            width: ${type === "post" ? "40px" : "34px"};
+            height: ${type === "post" ? "40px" : "34px"};
             justify-content: center;
             align-items: center;
             flex-shrink: 0;
@@ -96,9 +96,13 @@ class ReplyBox extends Component {
   }
 }
 
+ReplyBox.defaultProps = {
+  type: "post"
+};
+
 ReplyBox.propTypes = {
   id: PropTypes.string.isRequired,
-  style: PropTypes.oneOf(["post", "comment"]).isRequired,
+  type: PropTypes.oneOf(["post", "comment"]).isRequired,
   subreddit: PropTypes.string
 };
 

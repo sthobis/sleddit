@@ -11,11 +11,16 @@ class PostList extends Component {
         <ul className="post-list">
           {posts.map((post, index) => (
             <li key={post.id}>
-              <PostItem subreddit={subreddit} post={post} index={index} />
+              <PostItem
+                subreddit={subreddit}
+                post={post}
+                index={index}
+                type="post"
+              />
             </li>
           ))}
         </ul>
-        <ReplyBar id="reply-post" style="post" subreddit={subreddit} />
+        <ReplyBar id="reply-post" type="post" subreddit={subreddit} />
         <style jsx>{`
           .root {
             width: 100%;

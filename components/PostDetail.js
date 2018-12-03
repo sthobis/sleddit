@@ -20,10 +20,15 @@ class PostDetail extends Component {
           </h2>
         </div>
         <article className="post">
-          <PostItem subreddit={subreddit} post={post} index={1} />
+          <PostItem
+            subreddit={subreddit}
+            post={post}
+            index={1}
+            type="comment"
+          />
           <CommentList comments={comments} />
         </article>
-        <ReplyBar id="reply-comment" style="comment" />
+        <ReplyBar id="reply-comment" type="comment" />
         <style jsx>{`
           .root {
             width: 492px;
