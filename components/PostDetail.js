@@ -1,7 +1,8 @@
+import Link from "next/link";
 import PropTypes from "prop-types";
 import React, { Component } from "react";
 import CommentList from "./CommentList";
-import { HashIcon, LockIcon } from "./Icons";
+import { HashIcon, LockIcon, PlusIcon } from "./Icons";
 import PostItem from "./PostItem";
 import ReplyBar from "./ReplyBar";
 
@@ -18,6 +19,11 @@ class PostDetail extends Component {
               {subreddit}
             </span>
           </h2>
+          <Link href={`/?subreddit=${subreddit}`}>
+            <a className="heading-close">
+              <PlusIcon />
+            </a>
+          </Link>
         </div>
         <article className="post">
           <PostItem
@@ -37,12 +43,15 @@ class PostDetail extends Component {
           }
 
           .heading {
+            display: flex;
+            align-items: center;
             padding: 19px 12px;
             background: #f9f9f9;
             border-bottom: 1px solid rgba(0, 0, 0, 0.1);
           }
 
           .heading h2 {
+            width: 100%;
             margin: 0;
           }
 
@@ -66,6 +75,22 @@ class PostDetail extends Component {
             width: 11px;
             height: 11px;
             fill: #717274;
+          }
+
+          .heading-close {
+            flex-shrink: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 40px;
+            height: 40px;
+          }
+
+          .heading-close :global(svg) {
+            width: 26px;
+            height: 26px;
+            fill: #717274;
+            transform: rotateZ(45deg);
           }
 
           .post :global(.post-item) {
