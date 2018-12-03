@@ -19,6 +19,7 @@ class Sidebar extends Component {
   };
 
   render() {
+    const { subreddit: activeSubreddit } = this.props;
     const { subreddits } = this.state;
     return (
       <aside className="root">
@@ -52,7 +53,11 @@ class Sidebar extends Component {
             {subreddits.map(subreddit => (
               <li key={subreddit}>
                 <Link href={`/?subreddit=${subreddit}`}>
-                  <a className="channel-item hover">
+                  <a
+                    className={`channel-item hover${
+                      subreddit === activeSubreddit ? " active" : ""
+                    }`}
+                  >
                     {subreddit === "all" ? <LockIcon /> : <HashIcon />}
                     {subreddit}
                   </a>
@@ -250,6 +255,15 @@ class Sidebar extends Component {
 
           .channel-item:visited {
             color: inherit;
+          }
+
+          .channel-item.active {
+            background-color: #4c9689;
+            color: #fff;
+          }
+
+          .channel-item.active :global(svg) {
+            fill: #fff;
           }
 
           .dm-item {

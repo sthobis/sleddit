@@ -6,7 +6,8 @@ import ReplyBar from "./ReplyBar";
 
 class PostList extends Component {
   render() {
-    const { posts, subreddit } = this.props;
+    const { posts, subreddit, expandedPost } = this.props;
+    const activePostId = expandedPost ? expandedPost.post.id : "";
     return (
       <div className="root">
         <div className="scroll-container">
@@ -28,6 +29,7 @@ class PostList extends Component {
                     post={post}
                     index={index}
                     type="post"
+                    active={post.id === activePostId}
                   />
                 </li>
               ))}
@@ -75,7 +77,11 @@ class PostList extends Component {
 
 PostList.propTypes = {
   subreddit: PropTypes.string.isRequired,
-  posts: PropTypes.arrayOf(PropTypes.object)
+  posts: PropTypes.arrayOf(PropTypes.object),
+  expandedPost: PropTypes.shape({
+    post: PropTypes.object.isRequired,
+    comments: PropTypes.array
+  })
 };
 
 export default PostList;

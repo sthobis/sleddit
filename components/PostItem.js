@@ -24,10 +24,14 @@ class PostItem extends Component {
     const {
       type,
       post: { id, author, commentsCount, created, score, selfText, title, url },
-      index
+      index,
+      active
     } = this.props;
     return (
-      <div className="post-item" onClick={() => this.expandPost(id)}>
+      <div
+        className={`post-item${active ? " active" : ""}`}
+        onClick={() => this.expandPost(id)}
+      >
         <div className="post-info">
           <span>
             <MessageIcon />
@@ -77,10 +81,6 @@ class PostItem extends Component {
             cursor: pointer;
           }
 
-          .post-item:hover .post-info {
-            display: flex;
-          }
-
           .post-info {
             position: absolute;
             top: -8px;
@@ -112,8 +112,13 @@ class PostItem extends Component {
             opacity: 0.75;
           }
 
-          .post-item:hover {
+          .post-item:hover,
+          .post-item.active {
             background: #f9f9f9;
+          }
+
+          .post-item:hover .post-info {
+            display: flex;
           }
 
           .post-content {
@@ -188,7 +193,8 @@ PostItem.propTypes = {
     url: PropTypes.string.isRequired,
     selfText: PropTypes.string
   }).isRequired,
-  index: PropTypes.number.isRequired
+  index: PropTypes.number.isRequired,
+  active: PropTypes.bool
 };
 
 export default PostItem;

@@ -15,7 +15,11 @@ class Viewer extends Component {
         <main className="content">
           <AppBar subreddit={subreddit} />
           <div className="row">
-            <PostList subreddit={subreddit} posts={posts} />
+            <PostList
+              subreddit={subreddit}
+              posts={posts}
+              expandedPost={expandedPost}
+            />
             {expandedPost && (
               <PostDetail
                 subreddit={subreddit}
