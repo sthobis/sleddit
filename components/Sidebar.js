@@ -9,7 +9,7 @@ import {
   MenuIcon,
   MessageIcon,
   NotificationIcon,
-  PlusIcon,
+  PlusOutlineIcon,
   SearchIcon
 } from "./Icons";
 
@@ -46,7 +46,7 @@ class Sidebar extends Component {
         <section>
           <span className="section-title">
             Channels
-            <PlusIcon />
+            <PlusOutlineIcon />
           </span>
           <ul className="channel-list">
             {subreddits.map(subreddit => (
@@ -64,7 +64,7 @@ class Sidebar extends Component {
         <section>
           <span className="section-title">
             Direct Messages
-            <PlusIcon />
+            <PlusOutlineIcon />
           </span>
           <ul className="dm-list">
             <li>
@@ -81,7 +81,7 @@ class Sidebar extends Component {
         <section>
           <span className="section-title">
             Apps
-            <PlusIcon />
+            <PlusOutlineIcon />
           </span>
         </section>
         <style jsx>{`

@@ -42,6 +42,9 @@ class Viewer extends Component {
           }
         `}</style>
         <style jsx global>{`
+          * {
+            box-sizing: border-box;
+          }
           body {
             margin: 0;
             font-family: Lato, sans-serif;

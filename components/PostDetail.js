@@ -3,6 +3,7 @@ import React, { Component } from "react";
 import CommentList from "./CommentList";
 import { HashIcon, LockIcon } from "./Icons";
 import PostItem from "./PostItem";
+import ReplyBar from "./ReplyBar";
 
 class PostDetail extends Component {
   render() {
@@ -22,6 +23,7 @@ class PostDetail extends Component {
           <PostItem subreddit={subreddit} post={post} index={1} />
           <CommentList comments={comments} />
         </article>
+        <ReplyBar id="reply-comment" style="comment" />
         <style jsx>{`
           .root {
             flex-basis: 492px;

@@ -1,6 +1,7 @@
 import PropTypes from "prop-types";
 import React, { Component } from "react";
 import PostItem from "./PostItem";
+import ReplyBar from "./ReplyBar";
 
 class PostList extends Component {
   render() {
@@ -14,6 +15,7 @@ class PostList extends Component {
             </li>
           ))}
         </ul>
+        <ReplyBar id="reply-post" style="post" subreddit={subreddit} />
         <style jsx>{`
           .root {
             width: 100%;
