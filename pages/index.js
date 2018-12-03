@@ -26,7 +26,7 @@ function formatComments(comments) {
           return {
             id: comment.id,
             author: comment.author,
-            body: comment.body,
+            body: comment.body_html,
             comments: comment.replies
               ? formatComments(comment.replies.data.children)
               : [],

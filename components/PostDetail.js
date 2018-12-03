@@ -26,7 +26,7 @@ class PostDetail extends Component {
         <ReplyBar id="reply-comment" style="comment" />
         <style jsx>{`
           .root {
-            flex-basis: 492px;
+            width: 492px;
             flex-shrink: 0;
             border-left: 1px solid rgba(0, 0, 0, 0.1);
           }
@@ -63,6 +63,11 @@ class PostDetail extends Component {
             fill: #717274;
           }
 
+          .post :global(.post-item) {
+            padding-left: 11px;
+            padding-right: 11px;
+          }
+
           .post :global(.post-url-image) {
             max-width: 100%;
             max-height: none;
@@ -76,13 +81,13 @@ class PostDetail extends Component {
 
           @media screen and (max-width: 1440px) {
             .root {
-              flex-basis: 442px;
+              width: 442px;
             }
           }
 
           @media screen and (max-width: 1366px) {
             .root {
-              flex-basis: 392px;
+              width: 392px;
             }
           }
         `}</style>
