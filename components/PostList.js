@@ -78,7 +78,7 @@ class PostList extends Component {
 
 PostList.propTypes = {
   subreddit: PropTypes.string.isRequired,
-  posts: PropTypes.arrayOf(PropTypes.object),
+  posts: PropTypes.arrayOf(PropTypes.object).isRequired,
   expandedPost: PropTypes.shape({
     post: PropTypes.object.isRequired,
     comments: PropTypes.array

@@ -44,7 +44,7 @@ class HomePage extends Component {
     if (!subreddit) {
       return {
         subreddit,
-        posts: null,
+        posts: [],
         expandedPost: null,
         error: null
       };
@@ -82,7 +82,7 @@ class HomePage extends Component {
       console.error(err);
       return {
         subreddit,
-        posts: null,
+        posts: [],
         expandedPost: null,
         error: err.message || err
       };
