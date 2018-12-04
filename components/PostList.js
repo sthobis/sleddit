@@ -6,7 +6,7 @@ import ReplyBar from "./ReplyBar";
 
 class PostList extends Component {
   render() {
-    const { posts, subreddit, expandedPost } = this.props;
+    const { posts, subreddit, expandedPost, isRedditBlocked } = this.props;
     const activePostId = expandedPost ? expandedPost.post.id : "";
     return (
       <div className="root">
@@ -31,6 +31,7 @@ class PostList extends Component {
                     index={index}
                     type="post"
                     active={post.id === activePostId}
+                    isRedditBlocked={isRedditBlocked}
                   />
                 </li>
               ))}
@@ -82,7 +83,8 @@ PostList.propTypes = {
   expandedPost: PropTypes.shape({
     post: PropTypes.object.isRequired,
     comments: PropTypes.array
-  })
+  }),
+  isRedditBlocked: PropTypes.bool.isRequired
 };
 
 export default PostList;

@@ -1,5 +1,4 @@
 import produce from "immer";
-import Link from "next/link";
 import Router from "next/router";
 import PropTypes from "prop-types";
 import React, { Component } from "react";
@@ -15,6 +14,7 @@ import {
   PlusOutlineIcon,
   SearchIcon
 } from "./Icons";
+import Link from "./Link";
 
 class Sidebar extends Component {
   constructor(props) {
@@ -78,7 +78,7 @@ class Sidebar extends Component {
   };
 
   render() {
-    const { subreddit: activeSubreddit } = this.props;
+    const { subreddit: activeSubreddit, isRedditBlocked } = this.props;
     const { subreddits, subredditInput, subredditInputHasFocus } = this.state;
     return (
       <aside className="root">
@@ -129,25 +129,25 @@ class Sidebar extends Component {
           <ul className="channel-list">
             {subreddits.map(subreddit => (
               <li key={subreddit}>
-                <Link href={`/?subreddit=${subreddit}`}>
-                  <a
-                    className={`channel-item hover${
-                      subreddit === activeSubreddit ? " active" : ""
-                    }`}
-                  >
-                    {subreddit === "all" ? <LockIcon /> : <HashIcon />}
-                    {subreddit}
-                    {subreddit !== "all" && (
-                      <button
-                        type="button"
-                        className="channel-item-remove"
-                        onClick={this.removeSubreddit(subreddit)}
-                        aria-label="remove subreddit"
-                      >
-                        <PlusIcon />
-                      </button>
-                    )}
-                  </a>
+                <Link
+                  isRedditBlocked={isRedditBlocked}
+                  href={`/?subreddit=${subreddit}`}
+                  className={`channel-item hover${
+                    subreddit === activeSubreddit ? " active" : ""
+                  }`}
+                >
+                  {subreddit === "all" ? <LockIcon /> : <HashIcon />}
+                  {subreddit}
+                  {subreddit !== "all" && (
+                    <button
+                      type="button"
+                      className="channel-item-remove"
+                      onClick={this.removeSubreddit(subreddit)}
+                      aria-label="remove subreddit"
+                    >
+                      <PlusIcon />
+                    </button>
+                  )}
                 </Link>
               </li>
             ))}
@@ -356,7 +356,7 @@ class Sidebar extends Component {
             list-style-type: none;
           }
 
-          .channel-item {
+          .root :global(.channel-item) {
             position: relative;
             display: flex;
             align-items: center;
@@ -365,7 +365,7 @@ class Sidebar extends Component {
             text-decoration: none;
           }
 
-          .channel-item :global(svg) {
+          .root :global(.channel-item svg) {
             width: 14px;
             height: 14px;
             fill: rgb(184, 176, 183);
@@ -373,24 +373,24 @@ class Sidebar extends Component {
             margin: 0 4px 0 0;
           }
 
-          .channel-item:visited {
+          .root :global(.channel-item:visited) {
             color: inherit;
           }
 
-          .channel-item.active {
+          .root :global(.channel-item.active) {
             background-color: #4c9689;
             color: #fff;
           }
 
-          .channel-item.active :global(svg) {
+          .root :global(.channel-item.active svg) {
             fill: #fff;
           }
 
-          .channel-item:hover .channel-item-remove {
+          .root :global(.channel-item:hover .channel-item-remove) {
             display: flex;
           }
 
-          .channel-item-remove {
+          .root :global(.channel-item-remove) {
             position: absolute;
             top: 4px;
             right: 12px;
@@ -405,7 +405,7 @@ class Sidebar extends Component {
             padding: 0;
           }
 
-          .channel-item-remove :global(svg) {
+          .root :global(.channel-item-remove svg) {
             width: 19px;
             height: 19px;
             transform: rotateZ(45deg);
@@ -433,7 +433,8 @@ class Sidebar extends Component {
 }
 
 Sidebar.propTypes = {
-  subreddit: PropTypes.string
+  subreddit: PropTypes.string.isRequired,
+  isRedditBlocked: PropTypes.bool.isRequired
 };
 
 export default Sidebar;

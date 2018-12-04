@@ -1,9 +1,9 @@
 import format from "date-fns/format";
-import Link from "next/link";
 import PropTypes from "prop-types";
 import React, { Component } from "react";
 import EmbedMedia from "./EmbedMedia";
 import { MessageIcon } from "./Icons";
+import Link from "./Link";
 
 function unescape(str) {
   let result = str.replace(/&gt;/g, ">");
@@ -32,14 +32,18 @@ class PostItem extends Component {
         domain
       },
       index,
-      active
+      active,
+      isRedditBlocked
     } = this.props;
     return (
       <div className={`post-item${active ? " active" : ""}`}>
         {type === "post" && (
-          <Link href={`/?subreddit=${subreddit}&post=${id}`}>
-            <a className="post-link" aria-label={`go to ${title}`} />
-          </Link>
+          <Link
+            href={`/?subreddit=${subreddit}&post=${id}`}
+            className="post-link"
+            aria-label={`go to ${title}`}
+            isRedditBlocked={isRedditBlocked}
+          />
         )}
         <div className="post-info">
           <span>
@@ -81,7 +85,7 @@ class PostItem extends Component {
             cursor: pointer;
           }
 
-          .post-link {
+          .post-item :global(.post-link) {
             position: absolute;
             top: 0;
             left: 0;
@@ -192,7 +196,8 @@ PostItem.propTypes = {
     selfText: PropTypes.string
   }).isRequired,
   index: PropTypes.number.isRequired,
-  active: PropTypes.bool
+  active: PropTypes.bool,
+  isRedditBlocked: PropTypes.bool.isRequired
 };
 
 export default PostItem;

@@ -1,9 +1,9 @@
-import Link from "next/link";
 import PropTypes from "prop-types";
 import React, { Component } from "react";
 import { Scrollbars } from "react-custom-scrollbars";
 import CommentList from "./CommentList";
 import { HashIcon, LockIcon, PlusIcon } from "./Icons";
+import Link from "./Link";
 import PostItem from "./PostItem";
 import ReplyBar from "./ReplyBar";
 
@@ -23,7 +23,7 @@ class PostDetail extends Component {
   };
 
   render() {
-    const { subreddit, post, comments } = this.props;
+    const { subreddit, post, comments, isRedditBlocked } = this.props;
     return (
       <div className="root">
         <div className="heading">
@@ -34,10 +34,13 @@ class PostDetail extends Component {
               {subreddit}
             </span>
           </h2>
-          <Link href={`/?subreddit=${subreddit}`}>
-            <a className="heading-close" aria-label="close">
-              <PlusIcon />
-            </a>
+          <Link
+            href={`/?subreddit=${subreddit}`}
+            className="heading-close"
+            aria-label="close"
+            isRedditBlocked={isRedditBlocked}
+          >
+            <PlusIcon />
           </Link>
         </div>
         <div className="scroll-container">
@@ -58,6 +61,7 @@ class PostDetail extends Component {
                 post={post}
                 index={1}
                 type="comment"
+                isRedditBlocked={isRedditBlocked}
               />
               <div className="separator">replies</div>
               <CommentList comments={comments} />
@@ -112,7 +116,7 @@ class PostDetail extends Component {
             fill: #717274;
           }
 
-          .heading-close {
+          .heading :global(.heading-close) {
             flex-shrink: 0;
             display: flex;
             justify-content: center;
@@ -121,7 +125,7 @@ class PostDetail extends Component {
             height: 40px;
           }
 
-          .heading-close :global(svg) {
+          .heading :global(.heading-close svg) {
             width: 26px;
             height: 26px;
             fill: #717274;
@@ -194,7 +198,8 @@ class PostDetail extends Component {
 PostDetail.propTypes = {
   subreddit: PropTypes.string.isRequired,
   post: PropTypes.object.isRequired,
-  comments: PropTypes.arrayOf(PropTypes.object).isRequired
+  comments: PropTypes.arrayOf(PropTypes.object).isRequired,
+  isRedditBlocked: PropTypes.bool.isRequired
 };
 
 export default PostDetail;

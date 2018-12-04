@@ -81,22 +81,34 @@ class HomePage extends Component {
     }
   }
 
+  state = {
+    // assume that reddit is blocked
+    // and disable client-side routing
+    // which means everything is server-rendered
+    isRedditBlocked: true
+  };
+
+  componentDidMount() {
+    let image = new Image();
+    image.src = "https://reddit.com/favicon.ico";
+    image.onload = () => {
+      // user can access reddit from client-side
+      this.setState({ isRedditBlocked: false });
+    };
+  }
+
   render() {
     const { subreddit, error, posts, expandedPost } = this.props;
+    const { isRedditBlocked } = this.state;
+    error && console.log(error);
     return (
       <>
         <Viewer
           subreddit={subreddit}
           posts={posts}
           expandedPost={expandedPost}
+          isRedditBlocked={isRedditBlocked}
         />
-        {error && (
-          <div>
-            ERROR:
-            <br />
-            {error}
-          </div>
-        )}
       </>
     );
   }
