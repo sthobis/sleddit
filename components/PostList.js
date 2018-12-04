@@ -37,7 +37,7 @@ class PostList extends Component {
             </ul>
           </Scrollbars>
         </div>
-        <ReplyBar id="reply-post" type="post" subreddit={subreddit} />
+        <ReplyBar type="post" subreddit={subreddit} />
         <style jsx>{`
           .root {
             display: flex;

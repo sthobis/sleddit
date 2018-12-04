@@ -62,7 +62,7 @@ class PostDetail extends Component {
               <div className="separator">replies</div>
               <CommentList comments={comments} />
             </article>
-            <ReplyBar id="reply-comment" type="comment" />
+            <ReplyBar type="comment" />
           </Scrollbars>
         </div>
         <style jsx>{`

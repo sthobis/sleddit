@@ -1,3 +1,4 @@
+import Head from "next/head";
 import PropTypes from "prop-types";
 import React, { Component } from "react";
 import AppBar from "./AppBar";
@@ -11,6 +12,9 @@ class Viewer extends Component {
 
     return (
       <div className="root">
+        <Head>
+          <title>{subreddit} | sthobis Sleddit</title>
+        </Head>
         <Sidebar subreddit={subreddit} />
         <main className="content">
           <AppBar subreddit={subreddit} />

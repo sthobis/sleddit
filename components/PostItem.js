@@ -41,6 +41,7 @@ class PostItem extends Component {
         </div>
         <img
           className="post-author-thumbnail"
+          alt={author}
           src={`/static/avatar${index % 2 === 0 ? "-2" : ""}.png`}
         />
         <div className="post-content">

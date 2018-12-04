@@ -4,20 +4,22 @@ import { AtIcon, PlusIcon } from "./Icons";
 
 class ReplyBox extends Component {
   render() {
-    const { id, type, subreddit } = this.props;
+    const { type, subreddit } = this.props;
     return (
       <div className="root">
         <span className="attachment">
           <PlusIcon />
         </span>
-        <label htmlFor={id}>Reply</label>
-        <input
-          type="text"
-          defaultValue=""
-          placeholder={
-            type === "post" && subreddit ? `Message #${subreddit}` : "Reply.."
-          }
-        />
+        <label>
+          <span className="label">Reply</span>
+          <input
+            type="text"
+            defaultValue=""
+            placeholder={
+              type === "post" && subreddit ? `Message #${subreddit}` : "Reply.."
+            }
+          />
+        </label>
         <span className="mention">
           <AtIcon />
         </span>
@@ -101,7 +103,6 @@ ReplyBox.defaultProps = {
 };
 
 ReplyBox.propTypes = {
-  id: PropTypes.string.isRequired,
   type: PropTypes.oneOf(["post", "comment"]).isRequired,
   subreddit: PropTypes.string
 };

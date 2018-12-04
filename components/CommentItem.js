@@ -25,6 +25,7 @@ class CommentItem extends Component {
         </div>
         <img
           className="comment-author-thumbnail"
+          alt={author}
           src={`/static/avatar${index % 2 === 0 ? "-2" : ""}.png`}
         />
         <div>
