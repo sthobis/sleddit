@@ -2,6 +2,15 @@
 
 Slack-styled reddit viewer. [Demo](https://sleddit.now.sh).
 
+## Media type support
+- [x] Self/Text
+- [x] Image link
+- [x] Imgur gifv link
+- [x] Gfycat link
+- [x] Youtube link
+- [ ] Tweet link
+- [ ] v.redd.it link
+
 ## Setup
 
 ```
