@@ -54,6 +54,13 @@ class EmbedMedia extends Component {
             />
           </div>
         );
+      } else {
+        // text-based and any other unidentified post
+        media = (
+          <a className="embed-text" href={url}>
+            {url.length <= 40 ? url : url.substring(0, 40) + "..."}
+          </a>
+        );
       }
     } else {
       // text-based and any other unidentified post
