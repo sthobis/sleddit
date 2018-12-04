@@ -47,7 +47,6 @@ class CommentItem extends Component {
             align-items: flex-start;
             padding: 7px 21px 7px 11px;
             color: #2c2d30;
-            cursor: pointer;
           }
 
           .comment-item:hover .comment-info {

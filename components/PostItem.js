@@ -25,9 +25,11 @@ class PostItem extends Component {
     } = this.props;
     return (
       <div className={`post-item${active ? " active" : ""}`}>
-        <Link href={`/?subreddit=${subreddit}&post=${id}`}>
-          <a className="post-link" aria-label={`go to ${title}`} />
-        </Link>
+        {type === "post" && (
+          <Link href={`/?subreddit=${subreddit}&post=${id}`}>
+            <a className="post-link" aria-label={`go to ${title}`} />
+          </Link>
+        )}
         <div className="post-info">
           <span>
             <MessageIcon />

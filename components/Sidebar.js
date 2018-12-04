@@ -26,9 +26,14 @@ class Sidebar extends Component {
     }
     this.state = {
       subreddits,
-      subredditInput: ""
+      subredditInput: "",
+      subredditInputHasFocus: false
     };
   }
+
+  focusSubredditInput = () => {
+    this.subredditInput && this.subredditInput.focus();
+  };
 
   handleChange = e => {
     this.setState({
@@ -49,9 +54,14 @@ class Sidebar extends Component {
     }
   };
 
+  handleFocus = e => {
+    this.setState({ subredditInputHasFocus: true });
+  };
+
   handleBlur = e => {
     this.setState({
-      subredditInput: ""
+      subredditInput: "",
+      subredditInputHasFocus: false
     });
   };
 
@@ -69,7 +79,7 @@ class Sidebar extends Component {
 
   render() {
     const { subreddit: activeSubreddit } = this.props;
-    const { subreddits, subredditInput } = this.state;
+    const { subreddits, subredditInput, subredditInputHasFocus } = this.state;
     return (
       <aside className="root">
         <section>
@@ -81,7 +91,7 @@ class Sidebar extends Component {
             </span>
             <span className="team-user">sthobis</span>
           </div>
-          <div className="jump-to">
+          <div className={`jump-to${subredditInputHasFocus ? " active" : ""}`}>
             <span className="jump-to-icon">
               <MenuIcon />
               <SearchIcon />
@@ -90,12 +100,14 @@ class Sidebar extends Component {
               <span className="jump-to-label">Go to subreddit</span>
               {subredditInput && <span className="jump-to-prefix">/r/</span>}
               <input
+                ref={el => (this.subredditInput = el)}
                 type="text"
                 placeholder="Jump to..."
                 value={subredditInput}
                 className="jump-to-input"
                 onChange={this.handleChange}
                 onKeyPress={this.handleKeyPress}
+                onFocus={this.handleFocus}
                 onBlur={this.handleBlur}
               />
             </label>
@@ -106,7 +118,11 @@ class Sidebar extends Component {
           </span>
         </section>
         <section>
-          <span className="section-title">
+          <span
+            className="section-title"
+            style={{ cursor: "pointer" }}
+            onClick={this.focusSubredditInput}
+          >
             Channels
             <PlusOutlineIcon />
           </span>
@@ -170,6 +186,7 @@ class Sidebar extends Component {
             background: #4d394b;
             color: rgb(184, 176, 183);
             font-size: 16px;
+            cursor: default;
           }
 
           section {
@@ -244,6 +261,11 @@ class Sidebar extends Component {
             border-radius: 4px;
           }
 
+          .jump-to.active,
+          .jump-to:hover {
+            background: rgb(42, 22, 40);
+          }
+
           .jump-to-icon {
             position: relative;
             width: 18px;
@@ -311,6 +333,10 @@ class Sidebar extends Component {
 
           .section-title:hover {
             color: #fff;
+          }
+
+          .section-title:hover :global(svg) {
+            fill: #fff;
           }
 
           .section-title :global(svg) {

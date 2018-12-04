@@ -35,7 +35,7 @@ class PostDetail extends Component {
             </span>
           </h2>
           <Link href={`/?subreddit=${subreddit}`}>
-            <a className="heading-close">
+            <a className="heading-close" aria-label="close">
               <PlusIcon />
             </a>
           </Link>
@@ -158,7 +158,7 @@ class PostDetail extends Component {
           }
 
           .post :global(.post-info) {
-            top: 8px;
+            top: 3px;
             right: 21px;
           }
 
