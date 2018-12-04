@@ -61,6 +61,11 @@ class ReplyBox extends Component {
           }
 
           label {
+            display: block;
+            width: 100%;
+          }
+
+          .label {
             display: none;
             visibility: hidden;
           }

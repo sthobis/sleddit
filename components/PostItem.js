@@ -127,6 +127,7 @@ class PostItem extends Component {
           }
 
           .post-author-thumbnail {
+            flex-shrink: 0;
             width: 36px;
             height: 36px;
             margin: 2px 8px 0 0;

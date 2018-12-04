@@ -28,7 +28,7 @@ class CommentItem extends Component {
           alt={author}
           src={`/static/avatar${index % 2 === 0 ? "-2" : ""}.png`}
         />
-        <div>
+        <div className="comment-content">
           <div>
             <span className="comment-author-username">{author}</span>
             <span className="comment-score">
@@ -90,10 +90,15 @@ class CommentItem extends Component {
           }
 
           .comment-author-thumbnail {
+            flex-shrink: 0;
             width: 36px;
             height: 36px;
             margin: 2px 8px 0 0;
             border-radius: 3px;
+          }
+
+          .comment-content {
+            width: 100%;
           }
 
           .comment-author-username {
