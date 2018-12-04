@@ -1,6 +1,6 @@
 # Sleddit
 
-Slack-styled reddit viewer. [Demo](https://sleddit.netlify.com).
+Slack-styled reddit viewer. [Demo](https://sleddit.now.sh).
 
 ## Setup
 
