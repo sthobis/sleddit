@@ -21,15 +21,9 @@ class EmbedMedia extends Component {
 
     let media;
     if (type === "comment") {
-      if (/\.(gif|gifv|jpe?g|tiff|png)$/i.test(url)) {
+      if (/\.(gif|jpe?g|tiff|png)$/i.test(url)) {
         // image files that can be inlined
-        media = (
-          <img
-            className="embed-image"
-            alt={url}
-            src={url.endsWith(".gifv") ? url.replace(".gifv", ".gif") : url}
-          />
-        );
+        media = <img className="embed-image" alt={url} src={url} />;
       } else if (domain === "gfycat.com") {
         // gfycat links
         const gfycatId = url.split("gfycat.com/")[1];
@@ -77,6 +71,7 @@ class EmbedMedia extends Component {
         <style jsx>{`
           .root :global(.embed-image) {
             max-width: 100%;
+            max-height: 400px;
             border-radius: 4px;
             margin: 6px 0 0 0;
           }
@@ -90,6 +85,7 @@ class EmbedMedia extends Component {
             position: relative;
             width: 100%;
             overflow: hidden;
+            margin: 6px 0 0 0;
           }
 
           .root :global(.embed-iframe::before) {
