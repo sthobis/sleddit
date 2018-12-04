@@ -13,7 +13,8 @@ function formatPosts(posts) {
       selfText: post.selftext_html,
       stickied: post.stickied,
       title: post.title,
-      url: post.url
+      url: post.url,
+      domain: post.domain
     };
   });
 }

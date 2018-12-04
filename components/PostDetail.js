@@ -152,11 +152,6 @@ class PostDetail extends Component {
             padding-right: 21px;
           }
 
-          .post :global(.post-url-image) {
-            max-width: 100%;
-            max-height: none;
-          }
-
           .post :global(.post-info) {
             top: 3px;
             right: 21px;

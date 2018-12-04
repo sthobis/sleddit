@@ -2,6 +2,7 @@ import format from "date-fns/format";
 import Link from "next/link";
 import PropTypes from "prop-types";
 import React, { Component } from "react";
+import EmbedMedia from "./EmbedMedia";
 import { MessageIcon } from "./Icons";
 
 function unescape(str) {
@@ -19,7 +20,17 @@ class PostItem extends Component {
     const {
       subreddit,
       type,
-      post: { id, author, commentsCount, created, score, selfText, title, url },
+      post: {
+        id,
+        author,
+        commentsCount,
+        created,
+        score,
+        selfText,
+        title,
+        url,
+        domain
+      },
       index,
       active
     } = this.props;
@@ -51,17 +62,7 @@ class PostItem extends Component {
           </div>
           <div className="post-body">
             <p className="post-title">{title}</p>
-            {type === "comment" && /\.(gif|gifv|jpe?g|tiff|png)$/i.test(url) ? (
-              <img
-                className="post-url-image"
-                alt={title}
-                src={url.endsWith(".gifv") ? url.replace(".gifv", ".gif") : url}
-              />
-            ) : (
-              <a className="post-url-text" href={url}>
-                {url.length <= 40 ? url : url.substring(0, 40) + "..."}
-              </a>
-            )}
+            <EmbedMedia type={type} url={url} domain={domain} />
             {selfText && type === "comment" && (
               <div
                 className="post-self-text reddit-markup"
@@ -162,18 +163,6 @@ class PostItem extends Component {
             margin: 0;
           }
 
-          .post-url-image {
-            max-width: 200px;
-            max-height: 200px;
-            border-radius: 4px;
-            margin: 6px 0 0 0;
-          }
-
-          .post-url-text {
-            color: #0576b9;
-            text-decoration: none;
-          }
-
           .post-self-text {
             margin: 5px 0 0 0;
           }
@@ -199,6 +188,7 @@ PostItem.propTypes = {
     stickied: PropTypes.bool.isRequired,
     title: PropTypes.string.isRequired,
     url: PropTypes.string.isRequired,
+    domain: PropTypes.string.isRequired,
     selfText: PropTypes.string
   }).isRequired,
   index: PropTypes.number.isRequired,
