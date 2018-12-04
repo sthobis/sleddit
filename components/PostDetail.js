@@ -8,6 +8,20 @@ import PostItem from "./PostItem";
 import ReplyBar from "./ReplyBar";
 
 class PostDetail extends Component {
+  componentDidMount() {
+    this.scrollToTop();
+  }
+
+  componentDidUpdate(prevProps) {
+    if (prevProps.post.id !== this.props.post.id) {
+      this.scrollToTop();
+    }
+  }
+
+  scrollToTop = () => {
+    this.scrollbar.scrollToTop();
+  };
+
   render() {
     const { subreddit, post, comments } = this.props;
     return (
@@ -28,6 +42,7 @@ class PostDetail extends Component {
         </div>
         <div className="scroll-container">
           <Scrollbars
+            ref={el => (this.scrollbar = el)}
             universal
             style={{ height: "100%" }}
             renderThumbVertical={props => (
