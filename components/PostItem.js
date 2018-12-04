@@ -83,7 +83,7 @@ class PostItem extends Component {
 
           .post-info {
             position: absolute;
-            top: -8px;
+            top: ${index === 0 ? "3px" : "-8px"};
             right: 27px;
             display: none;
             align-items: center;
