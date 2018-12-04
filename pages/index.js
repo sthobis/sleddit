@@ -39,16 +39,7 @@ function formatComments(comments) {
 
 class HomePage extends Component {
   static async getInitialProps({ req, res, store, query }) {
-    const { subreddit, post } = query;
-
-    if (!subreddit) {
-      return {
-        subreddit,
-        posts: [],
-        expandedPost: null,
-        error: null
-      };
-    }
+    const { subreddit = "all", post } = query;
 
     try {
       let fetchRequest = [

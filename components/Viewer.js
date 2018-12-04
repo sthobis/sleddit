@@ -102,10 +102,6 @@ class Viewer extends Component {
   }
 }
 
-Viewer.defaultProps = {
-  subreddit: "all"
-};
-
 Viewer.propTypes = {
   subreddit: PropTypes.string.isRequired,
   posts: PropTypes.arrayOf(PropTypes.object).isRequired,
