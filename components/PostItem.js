@@ -1,5 +1,5 @@
 import format from "date-fns/format";
-import Router from "next/router";
+import Link from "next/link";
 import PropTypes from "prop-types";
 import React, { Component } from "react";
 import { MessageIcon } from "./Icons";
@@ -15,23 +15,19 @@ function unescape(str) {
 }
 
 class PostItem extends Component {
-  expandPost = id => {
-    const { subreddit } = this.props;
-    Router.push(`/?subreddit=${subreddit}&post=${id}`);
-  };
-
   render() {
     const {
+      subreddit,
       type,
       post: { id, author, commentsCount, created, score, selfText, title, url },
       index,
       active
     } = this.props;
     return (
-      <div
-        className={`post-item${active ? " active" : ""}`}
-        onClick={() => this.expandPost(id)}
-      >
+      <div className={`post-item${active ? " active" : ""}`}>
+        <Link href={`/?subreddit=${subreddit}&post=${id}`}>
+          <a className="post-link" aria-label={`go to ${title}`} />
+        </Link>
         <div className="post-info">
           <span>
             <MessageIcon />
@@ -80,6 +76,14 @@ class PostItem extends Component {
             padding: 7px 27px;
             color: #2c2d30;
             cursor: pointer;
+          }
+
+          .post-link {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
           }
 
           .post-info {
