@@ -1,4 +1,6 @@
+import produce from "immer";
 import Link from "next/link";
+import Router from "next/router";
 import PropTypes from "prop-types";
 import React, { Component } from "react";
 import {
@@ -9,18 +11,65 @@ import {
   MenuIcon,
   MessageIcon,
   NotificationIcon,
+  PlusIcon,
   PlusOutlineIcon,
   SearchIcon
 } from "./Icons";
 
 class Sidebar extends Component {
-  state = {
-    subreddits: ["all", "pics", "gifs", "videos"]
+  constructor(props) {
+    super(props);
+    const { subreddit } = this.props;
+    let subreddits = ["all", "pics", "gifs", "videos"];
+    if (subreddits.findIndex(s => s === subreddit) < 0) {
+      subreddits.push(subreddit);
+    }
+    this.state = {
+      subreddits,
+      subredditInput: ""
+    };
+  }
+
+  handleChange = e => {
+    this.setState({
+      subredditInput: e.target.value
+    });
+  };
+
+  handleKeyPress = e => {
+    const { subredditInput } = this.state;
+    if (e.which === 13) {
+      Router.push(`/?subreddit=${subredditInput}`);
+      this.setState(
+        produce(draft => {
+          draft.subreddits.push(subredditInput);
+          draft.subredditInput = "";
+        })
+      );
+    }
+  };
+
+  handleBlur = e => {
+    this.setState({
+      subredditInput: ""
+    });
+  };
+
+  removeSubreddit = subreddit => e => {
+    e.preventDefault();
+    this.setState(
+      produce(draft => {
+        draft.subreddits.splice(
+          draft.subreddits.findIndex(s => s === subreddit),
+          1
+        );
+      })
+    );
   };
 
   render() {
     const { subreddit: activeSubreddit } = this.props;
-    const { subreddits } = this.state;
+    const { subreddits, subredditInput } = this.state;
     return (
       <aside className="root">
         <section>
@@ -37,7 +86,19 @@ class Sidebar extends Component {
               <MenuIcon />
               <SearchIcon />
             </span>
-            Jump to...
+            <label>
+              <span className="jump-to-label">Go to subreddit</span>
+              {subredditInput && <span className="jump-to-prefix">/r/</span>}
+              <input
+                type="text"
+                placeholder="Jump to..."
+                value={subredditInput}
+                className="jump-to-input"
+                onChange={this.handleChange}
+                onKeyPress={this.handleKeyPress}
+                onBlur={this.handleBlur}
+              />
+            </label>
           </div>
           <span className="all-threads hover">
             <MessageIcon />
@@ -60,6 +121,16 @@ class Sidebar extends Component {
                   >
                     {subreddit === "all" ? <LockIcon /> : <HashIcon />}
                     {subreddit}
+                    {subreddit !== "all" && (
+                      <button
+                        type="button"
+                        className="channel-item-remove"
+                        onClick={this.removeSubreddit(subreddit)}
+                        aria-label="remove subreddit"
+                      >
+                        <PlusIcon />
+                      </button>
+                    )}
                   </a>
                 </Link>
               </li>
@@ -93,7 +164,7 @@ class Sidebar extends Component {
           .root {
             display: flex;
             flex-direction: column;
-            flex-basis: 220px;
+            width: 220px;
             flex-shrink: 0;
             max-width: 260px;
             background: #4d394b;
@@ -180,6 +251,28 @@ class Sidebar extends Component {
             margin: 0 4px 0 0;
           }
 
+          .jump-to-label {
+            display: none;
+            visibility: hidden;
+          }
+
+          .jump-to-prefix {
+            margin-left: 2px;
+          }
+
+          .jump-to-input {
+            background: transparent;
+            font-family: inherit;
+            border: none;
+            font-size: 16px;
+            color: rgb(184, 176, 183);
+            outline: none;
+          }
+
+          .jump-to-input::placeholder {
+            color: rgb(184, 176, 183);
+          }
+
           .jump-to :global(svg:first-child) {
             width: 18px;
             height: 18px;
@@ -222,7 +315,7 @@ class Sidebar extends Component {
 
           .section-title :global(svg) {
             position: absolute;
-            top: 2px;
+            top: 1px;
             right: 0;
             width: 20px;
             height: 20px;
@@ -238,6 +331,7 @@ class Sidebar extends Component {
           }
 
           .channel-item {
+            position: relative;
             display: flex;
             align-items: center;
             padding: 3px 14px 4px;
@@ -264,6 +358,31 @@ class Sidebar extends Component {
 
           .channel-item.active :global(svg) {
             fill: #fff;
+          }
+
+          .channel-item:hover .channel-item-remove {
+            display: flex;
+          }
+
+          .channel-item-remove {
+            position: absolute;
+            top: 4px;
+            right: 12px;
+            display: none;
+            justify-content: center;
+            align-items: center;
+            width: 18px;
+            height: 18px;
+            background: transparent;
+            border: none;
+            cursor: pointer;
+            padding: 0;
+          }
+
+          .channel-item-remove :global(svg) {
+            width: 19px;
+            height: 19px;
+            transform: rotateZ(45deg);
           }
 
           .dm-item {
