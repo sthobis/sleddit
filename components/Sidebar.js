@@ -3,6 +3,7 @@ import produce from "immer";
 import Router from "next/router";
 import PropTypes from "prop-types";
 import React, { Component } from "react";
+import Scrollbars from "react-custom-scrollbars";
 import { COOKIE_KEY_SUBREDDITS } from "../config";
 import {
   DropdownIcon,
@@ -57,15 +58,18 @@ class Sidebar extends Component {
   addSubreddit = subreddit => {
     this.setState(
       produce(draft => {
-        draft.subreddits.push(subreddit);
-        draft.subreddits.sort();
-        draft.subreddit = "";
+        if (draft.subreddits.findIndex(el => el === subreddit) < 0) {
+          draft.subreddits.push(subreddit);
+          draft.subreddits.sort();
+        }
+        draft.subredditInput = "";
       }),
       this.updateSubredditsCookie
     );
   };
 
   removeSubreddit = subreddit => e => {
+    const { subreddit: activeSubreddit } = this.props;
     e.preventDefault();
     this.setState(
       produce(draft => {
@@ -76,6 +80,9 @@ class Sidebar extends Component {
       }),
       this.updateSubredditsCookie
     );
+    if (subreddit === activeSubreddit) {
+      Router.push(`/`);
+    }
   };
 
   updateSubredditsCookie = () => {
@@ -94,100 +101,118 @@ class Sidebar extends Component {
     const { subreddits, subredditInput, subredditInputHasFocus } = this.state;
     return (
       <aside className="root">
-        <section>
-          <div className="team hover">
-            <NotificationIcon />
-            <span className="team-name">
-              sleddit
-              <DropdownIcon />
-            </span>
-            <span className="team-user">sthobis</span>
-          </div>
-          <div className={`jump-to${subredditInputHasFocus ? " active" : ""}`}>
-            <span className="jump-to-icon">
-              <MenuIcon />
-              <SearchIcon />
-            </span>
-            <label>
-              <span className="jump-to-label">Go to subreddit</span>
-              {subredditInput && <span className="jump-to-prefix">/r/</span>}
-              <input
-                ref={el => (this.subredditInput = el)}
-                type="text"
-                placeholder="Jump to..."
-                value={subredditInput}
-                className="jump-to-input"
-                onChange={this.handleChange}
-                onKeyPress={this.handleKeyPress}
-                onFocus={this.handleFocus}
-                onBlur={this.handleBlur}
-              />
-            </label>
-          </div>
-          <span className="all-threads hover">
-            <MessageIcon />
-            All Threads
+        <div className="team hover">
+          <NotificationIcon />
+          <span className="team-name">
+            sleddit
+            <DropdownIcon />
           </span>
-        </section>
-        <section>
-          <span
-            className="section-title"
-            style={{ cursor: "pointer" }}
-            onClick={this.focusSubredditInput}
+          <span className="team-user">sthobis</span>
+        </div>
+        <div className="scroll-container">
+          <Scrollbars
+            universal
+            autoHide
+            style={{ height: "100%" }}
+            renderThumbVertical={props => (
+              <div {...props} className="thumb-vertical" />
+            )}
+            renderTrackVertical={props => (
+              <div {...props} className="track-vertical" />
+            )}
           >
-            Channels
-            <PlusOutlineIcon />
-          </span>
-          <ul className="channel-list">
-            {subreddits.map(subreddit => (
-              <li key={subreddit}>
-                <Link
-                  isRedditBlocked={isRedditBlocked}
-                  href={`/?subreddit=${subreddit}`}
-                  className={`channel-item hover${
-                    subreddit === activeSubreddit ? " active" : ""
-                  }`}
-                >
-                  {subreddit === "all" ? <LockIcon /> : <HashIcon />}
-                  {subreddit}
-                  {subreddit !== "all" && (
-                    <button
-                      type="button"
-                      className="channel-item-remove"
-                      onClick={this.removeSubreddit(subreddit)}
-                      aria-label="remove subreddit"
-                    >
-                      <PlusIcon />
-                    </button>
+            <section>
+              <div
+                className={`jump-to${subredditInputHasFocus ? " active" : ""}`}
+              >
+                <span className="jump-to-icon">
+                  <MenuIcon />
+                  <SearchIcon />
+                </span>
+                <label>
+                  <span className="jump-to-label">Go to subreddit</span>
+                  {subredditInput && (
+                    <span className="jump-to-prefix">/r/</span>
                   )}
-                </Link>
-              </li>
-            ))}
-          </ul>
-        </section>
-        <section>
-          <span className="section-title">
-            Direct Messages
-            <PlusOutlineIcon />
-          </span>
-          <ul className="dm-list">
-            <li>
-              <span className="dm-item hover">
-                <HeartIcon />
-                slackbot
+                  <input
+                    ref={el => (this.subredditInput = el)}
+                    type="text"
+                    placeholder="Jump to..."
+                    value={subredditInput}
+                    className="jump-to-input"
+                    onChange={this.handleChange}
+                    onKeyPress={this.handleKeyPress}
+                    onFocus={this.handleFocus}
+                    onBlur={this.handleBlur}
+                  />
+                </label>
+              </div>
+              <span className="all-threads hover">
+                <MessageIcon />
+                All Threads
               </span>
-            </li>
-            <li>
-              <span className="dm-item hover">sthobis (you)</span>
-            </li>
-          </ul>
-        </section>
-        <section>
-          <span className="section-title">
-            Apps
-            <PlusOutlineIcon />
-          </span>
-        </section>
+            </section>
+            <section>
+              <span
+                className="section-title"
+                style={{ cursor: "pointer" }}
+                onClick={this.focusSubredditInput}
+              >
+                Channels
+                <PlusOutlineIcon />
+              </span>
+              <ul className="channel-list">
+                {subreddits.map(subreddit => (
+                  <li key={subreddit}>
+                    <Link
+                      isRedditBlocked={isRedditBlocked}
+                      href={`/?subreddit=${subreddit}`}
+                      className={`channel-item hover${
+                        subreddit === activeSubreddit ? " active" : ""
+                      }`}
+                    >
+                      {subreddit === "all" ? <LockIcon /> : <HashIcon />}
+                      {subreddit}
+                      {subreddit !== "all" && (
+                        <button
+                          type="button"
+                          className="channel-item-remove"
+                          onClick={this.removeSubreddit(subreddit)}
+                          aria-label="remove subreddit"
+                        >
+                          <PlusIcon />
+                        </button>
+                      )}
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+            </section>
+            <section>
+              <span className="section-title">
+                Direct Messages
+                <PlusOutlineIcon />
+              </span>
+              <ul className="dm-list">
+                <li>
+                  <span className="dm-item hover">
+                    <HeartIcon />
+                    slackbot
+                  </span>
+                </li>
+                <li>
+                  <span className="dm-item hover">sthobis (you)</span>
+                </li>
+              </ul>
+            </section>
+            <section>
+              <span className="section-title">
+                Apps
+                <PlusOutlineIcon />
+              </span>
+            </section>
+          </Scrollbars>
+        </div>
         <style jsx>{`
           .root {
             display: flex;
@@ -201,12 +226,6 @@ class Sidebar extends Component {
             cursor: default;
           }
 
-          section {
-            display: flex;
-            flex-direction: column;
-            margin: 0 0 18px;
-          }
-
           .hover:hover {
             background-color: #3e313c;
           }
@@ -214,6 +233,8 @@ class Sidebar extends Component {
           .team {
             position: relative;
             display: flex;
+            flex-shrink: 0;
+            flex-grow: 0;
             flex-direction: column;
             padding: 9px 16px 10px;
           }
@@ -262,6 +283,31 @@ class Sidebar extends Component {
 
           .team:hover .team-user {
             color: #fff;
+          }
+
+          .scroll-container {
+            flex: 1;
+          }
+
+          .scroll-container :global(.thumb-vertical) {
+            border-radius: 4px;
+            width: 8px !important;
+            background-color: rgba(255, 255, 255, 0.5);
+          }
+
+          .scroll-container :global(.track-vertical) {
+            border-radius: 4px;
+            top: 4px;
+            bottom: 4px;
+            right: 3px;
+            width: 8px !important;
+            background-color: transparent;
+          }
+
+          section {
+            display: flex;
+            flex-direction: column;
+            margin: 0 0 18px;
           }
 
           .jump-to {
