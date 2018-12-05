@@ -1,6 +1,9 @@
 import axios from "axios";
+import cookie from "cookie";
+import PropTypes from "prop-types";
 import React, { Component } from "react";
 import Viewer from "../components/Viewer";
+import { COOKIE_KEY_SUBREDDITS } from "../config";
 
 function formatPosts(posts) {
   return posts.map(({ data: post }) => {
@@ -39,8 +42,19 @@ function formatComments(comments) {
 }
 
 class HomePage extends Component {
-  static async getInitialProps({ req, res, store, query }) {
+  static async getInitialProps({ req, res, query }) {
     const { subreddit = "all", post } = query;
+
+    const cookies = req
+      ? cookie.parse(req.headers.cookie)
+      : cookie.parse(window.document.cookie);
+    const savedSubreddits = cookies[COOKIE_KEY_SUBREDDITS]
+      ? cookies[COOKIE_KEY_SUBREDDITS].split(",")
+      : ["all", "gifs", "pics", "videos"];
+    if (savedSubreddits.findIndex(el => el === subreddit) < 0) {
+      savedSubreddits.push(subreddit);
+    }
+    savedSubreddits.sort();
 
     try {
       let fetchRequest = [
@@ -68,6 +82,7 @@ class HomePage extends Component {
         subreddit,
         posts,
         expandedPost,
+        savedSubreddits,
         error: null
       };
     } catch (err) {
@@ -76,6 +91,7 @@ class HomePage extends Component {
         subreddit,
         posts: [],
         expandedPost: null,
+        savedSubreddits,
         error: err.message || err
       };
     }
@@ -98,7 +114,13 @@ class HomePage extends Component {
   }
 
   render() {
-    const { subreddit, error, posts, expandedPost } = this.props;
+    const {
+      subreddit,
+      error,
+      posts,
+      expandedPost,
+      savedSubreddits
+    } = this.props;
     const { isRedditBlocked } = this.state;
     error && console.log(error);
     return (
@@ -108,10 +130,22 @@ class HomePage extends Component {
           posts={posts}
           expandedPost={expandedPost}
           isRedditBlocked={isRedditBlocked}
+          savedSubreddits={savedSubreddits}
         />
       </>
     );
   }
 }
+
+HomePage.propTypes = {
+  subreddit: PropTypes.string.isRequired,
+  posts: PropTypes.array.isRequired,
+  expandedPost: PropTypes.shape({
+    post: PropTypes.object.isRequired,
+    comments: PropTypes.object.isRequired
+  }),
+  savedSubreddits: PropTypes.array.isRequired,
+  error: PropTypes.any
+};
 
 export default HomePage;

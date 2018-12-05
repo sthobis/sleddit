@@ -1,1 +1,1 @@
-export const COOKIE_KEY_PREFIX = "__sledit_";
+export const COOKIE_KEY_SUBREDDITS = "__sledit_subreddits";

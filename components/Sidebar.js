@@ -1,7 +1,9 @@
+import cookie from "cookie";
 import produce from "immer";
 import Router from "next/router";
 import PropTypes from "prop-types";
 import React, { Component } from "react";
+import { COOKIE_KEY_SUBREDDITS } from "../config";
 import {
   DropdownIcon,
   HashIcon,
@@ -17,19 +19,11 @@ import {
 import Link from "./Link";
 
 class Sidebar extends Component {
-  constructor(props) {
-    super(props);
-    const { subreddit } = this.props;
-    let subreddits = ["all", "pics", "gifs", "videos"];
-    if (subreddits.findIndex(s => s === subreddit) < 0) {
-      subreddits.push(subreddit);
-    }
-    this.state = {
-      subreddits,
-      subredditInput: "",
-      subredditInputHasFocus: false
-    };
-  }
+  state = {
+    subreddits: this.props.savedSubreddits,
+    subredditInput: "",
+    subredditInputHasFocus: false
+  };
 
   focusSubredditInput = () => {
     this.subredditInput && this.subredditInput.focus();
@@ -45,12 +39,7 @@ class Sidebar extends Component {
     const { subredditInput } = this.state;
     if (e.which === 13) {
       Router.push(`/?subreddit=${subredditInput}`);
-      this.setState(
-        produce(draft => {
-          draft.subreddits.push(subredditInput);
-          draft.subredditInput = "";
-        })
-      );
+      this.addSubreddit(subredditInput);
     }
   };
 
@@ -65,6 +54,17 @@ class Sidebar extends Component {
     });
   };
 
+  addSubreddit = subreddit => {
+    this.setState(
+      produce(draft => {
+        draft.subreddits.push(subreddit);
+        draft.subreddits.sort();
+        draft.subreddit = "";
+      }),
+      this.updateSubredditsCookie
+    );
+  };
+
   removeSubreddit = subreddit => e => {
     e.preventDefault();
     this.setState(
@@ -73,7 +73,19 @@ class Sidebar extends Component {
           draft.subreddits.findIndex(s => s === subreddit),
           1
         );
-      })
+      }),
+      this.updateSubredditsCookie
+    );
+  };
+
+  updateSubredditsCookie = () => {
+    const { subreddits } = this.state;
+    window.document.cookie = cookie.serialize(
+      COOKIE_KEY_SUBREDDITS,
+      subreddits.join(","),
+      {
+        expires: new Date("1 Jan 2030")
+      }
     );
   };
 
@@ -434,7 +446,8 @@ class Sidebar extends Component {
 
 Sidebar.propTypes = {
   subreddit: PropTypes.string.isRequired,
-  isRedditBlocked: PropTypes.bool.isRequired
+  isRedditBlocked: PropTypes.bool.isRequired,
+  savedSubreddits: PropTypes.arrayOf(PropTypes.string).isRequired
 };
 
 export default Sidebar;

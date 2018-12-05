@@ -8,14 +8,24 @@ import Sidebar from "./Sidebar";
 
 class Viewer extends Component {
   render() {
-    const { subreddit, posts, expandedPost, isRedditBlocked } = this.props;
+    const {
+      subreddit,
+      posts,
+      expandedPost,
+      isRedditBlocked,
+      savedSubreddits
+    } = this.props;
 
     return (
       <div className="root">
         <Head>
           <title>{subreddit} | sthobis Sleddit</title>
         </Head>
-        <Sidebar subreddit={subreddit} isRedditBlocked={isRedditBlocked} />
+        <Sidebar
+          subreddit={subreddit}
+          isRedditBlocked={isRedditBlocked}
+          savedSubreddits={savedSubreddits}
+        />
         <main className="content">
           <AppBar subreddit={subreddit} />
           <div className="row">
@@ -115,7 +125,8 @@ Viewer.propTypes = {
     post: PropTypes.object.isRequired,
     comments: PropTypes.array
   }),
-  isRedditBlocked: PropTypes.bool.isRequired
+  isRedditBlocked: PropTypes.bool.isRequired,
+  savedSubreddits: PropTypes.array.isRequired
 };
 
 export default Viewer;
