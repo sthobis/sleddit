@@ -46,7 +46,7 @@ class HomePage extends Component {
     const { subreddit = "all", post } = query;
 
     const cookies = req
-      ? cookie.parse(req.headers.cookie)
+      ? cookie.parse(req.headers.cookie || "")
       : cookie.parse(window.document.cookie);
     const savedSubreddits = cookies[COOKIE_KEY_SUBREDDITS]
       ? cookies[COOKIE_KEY_SUBREDDITS].split(",")
