@@ -2,5 +2,8 @@
   "version": 2,
   "name": "sleddit",
   "alias": "sleddit",
-  "builds": [{ "src": "next.config.js", "use": "@now/next" }]
+  "builds": [
+    { "src": "/static/*.png", "use": "@now/static" },
+    { "src": "next.config.js", "use": "@now/next" }
+  ]
 }
