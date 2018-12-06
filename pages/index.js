@@ -142,7 +142,7 @@ HomePage.propTypes = {
   posts: PropTypes.array.isRequired,
   expandedPost: PropTypes.shape({
     post: PropTypes.object.isRequired,
-    comments: PropTypes.object.isRequired
+    comments: PropTypes.array
   }),
   savedSubreddits: PropTypes.array.isRequired,
   error: PropTypes.any
