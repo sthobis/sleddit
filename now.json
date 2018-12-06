@@ -1,3 +1,6 @@
 {
-  "alias": "sleddit"
+  "version": 2,
+  "name": "sleddit",
+  "alias": "sleddit",
+  "builds": [{ "src": "next.config.js", "use": "@now/next" }]
 }
