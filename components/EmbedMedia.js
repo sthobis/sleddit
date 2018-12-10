@@ -103,6 +103,10 @@ class EmbedMedia extends Component {
             width: 100%;
             height: 100%;
           }
+
+          .root :global(.embed-text) {
+            word-break: break-word;
+          }
         `}</style>
       </div>
     );

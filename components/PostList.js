@@ -9,7 +9,7 @@ class PostList extends Component {
     const { posts, subreddit, expandedPost, isRedditBlocked } = this.props;
     const activePostId = expandedPost ? expandedPost.post.id : "";
     return (
-      <div className="root">
+      <div className={`root${expandedPost ? " closed" : ""}`}>
         <div className="scroll-container">
           <Scrollbars
             universal
@@ -47,6 +47,10 @@ class PostList extends Component {
             height: 100%;
           }
 
+          .root.closed {
+            display: none;
+          }
+
           .scroll-container {
             flex: 1;
           }
@@ -70,6 +74,12 @@ class PostList extends Component {
             margin: 0;
             padding: 0;
             list-style-type: none;
+          }
+
+          @media screen and (min-width: 1024px) {
+            .root.closed {
+              display: flex;
+            }
           }
         `}</style>
       </div>

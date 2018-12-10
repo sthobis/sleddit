@@ -32,14 +32,14 @@ class Sidebar extends Component {
 
   handleChange = e => {
     this.setState({
-      subredditInput: e.target.value
+      subredditInput: (e.target.value || "").toLowerCase()
     });
   };
 
   handleKeyPress = e => {
     const { subredditInput } = this.state;
     if (e.which === 13) {
-      Router.push(`/?subreddit=${subredditInput}`);
+      this.goToUrl(`/?subreddit=${subredditInput}`);
       this.addSubreddit(subredditInput);
     }
   };
@@ -81,7 +81,16 @@ class Sidebar extends Component {
       this.updateSubredditsCookie
     );
     if (subreddit === activeSubreddit) {
-      Router.push(`/`);
+      this.goToUrl("/");
+    }
+  };
+
+  goToUrl = url => {
+    const { isRedditBlocked } = this.props;
+    if (isRedditBlocked) {
+      window.location.href = url;
+    } else {
+      Router.push(url);
     }
   };
 
@@ -97,10 +106,14 @@ class Sidebar extends Component {
   };
 
   render() {
-    const { subreddit: activeSubreddit, isRedditBlocked } = this.props;
+    const {
+      isSidebarOpened,
+      subreddit: activeSubreddit,
+      isRedditBlocked
+    } = this.props;
     const { subreddits, subredditInput, subredditInputHasFocus } = this.state;
     return (
-      <aside className="root">
+      <aside className={`root${isSidebarOpened ? "" : " closed"}`}>
         <div className="team hover">
           <NotificationIcon />
           <span className="team-name">
@@ -226,6 +239,10 @@ class Sidebar extends Component {
             cursor: default;
           }
 
+          .root.closed {
+            display: none;
+          }
+
           .hover:hover {
             background-color: #3e313c;
           }
@@ -347,6 +364,8 @@ class Sidebar extends Component {
             font-size: 16px;
             color: rgb(184, 176, 183);
             outline: none;
+            width: 136px;
+            padding: 0;
           }
 
           .jump-to-input::placeholder {
@@ -444,15 +463,11 @@ class Sidebar extends Component {
             fill: #fff;
           }
 
-          .root :global(.channel-item:hover .channel-item-remove) {
-            display: flex;
-          }
-
           .root :global(.channel-item-remove) {
             position: absolute;
             top: 4px;
             right: 12px;
-            display: none;
+            display: flex;
             justify-content: center;
             align-items: center;
             width: 18px;
@@ -484,6 +499,20 @@ class Sidebar extends Component {
             border-radius: 50%;
             margin: 2px 6px 0 0;
           }
+
+          @media screen and (min-width: 1024px) {
+            .root.closed {
+              display: flex;
+            }
+
+            .root :global(.channel-item-remove) {
+              display: none;
+            }
+
+            .root :global(.channel-item:hover .channel-item-remove) {
+              display: flex;
+            }
+          }
         `}</style>
       </aside>
     );
@@ -491,6 +520,7 @@ class Sidebar extends Component {
 }
 
 Sidebar.propTypes = {
+  isSidebarOpened: PropTypes.bool.isRequired,
   subreddit: PropTypes.string.isRequired,
   isRedditBlocked: PropTypes.bool.isRequired,
   savedSubreddits: PropTypes.arrayOf(PropTypes.string).isRequired

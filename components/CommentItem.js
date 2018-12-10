@@ -49,10 +49,6 @@ class CommentItem extends Component {
             color: #2c2d30;
           }
 
-          .comment-item:hover .comment-info {
-            display: flex;
-          }
-
           .comment-info {
             position: absolute;
             top: -8px;
@@ -116,6 +112,12 @@ class CommentItem extends Component {
             margin: 4px 0 0 0;
             font-size: 15px;
             line-height: 1.46668;
+          }
+
+          @media screen and (min-width: 1024px) {
+            .comment-item:hover .comment-info {
+              display: flex;
+            }
           }
         `}</style>
       </div>

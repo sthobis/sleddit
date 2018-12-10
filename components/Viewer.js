@@ -7,6 +7,27 @@ import PostList from "./PostList";
 import Sidebar from "./Sidebar";
 
 class Viewer extends Component {
+  state = {
+    isSidebarOpened: false
+  };
+
+  componentDidUpdate(prevProps) {
+    if (
+      this.props.subreddit !== prevProps.subreddit &&
+      this.state.isSidebarOpened
+    ) {
+      this.setState({ isSidebarOpened: false });
+    }
+  }
+
+  openSidebar = () => {
+    this.setState({ isSidebarOpened: true });
+  };
+
+  closeSidebar = () => {
+    this.setState({ isSidebarOpened: false });
+  };
+
   render() {
     const {
       subreddit,
@@ -15,6 +36,7 @@ class Viewer extends Component {
       isRedditBlocked,
       savedSubreddits
     } = this.props;
+    const { isSidebarOpened } = this.state;
 
     return (
       <div className="root">
@@ -22,12 +44,13 @@ class Viewer extends Component {
           <title>{subreddit} | sthobis Sleddit</title>
         </Head>
         <Sidebar
+          isSidebarOpened={isSidebarOpened}
           subreddit={subreddit}
           isRedditBlocked={isRedditBlocked}
           savedSubreddits={savedSubreddits}
         />
         <main className="content">
-          <AppBar subreddit={subreddit} />
+          <AppBar subreddit={subreddit} openSidebar={this.openSidebar} />
           <div className="row">
             <PostList
               subreddit={subreddit}
@@ -44,6 +67,9 @@ class Viewer extends Component {
               />
             )}
           </div>
+          {isSidebarOpened && (
+            <div className="overlay" onClick={this.closeSidebar} />
+          )}
         </main>
         <style jsx>{`
           .root {
@@ -53,6 +79,7 @@ class Viewer extends Component {
           }
 
           .content {
+            position: relative;
             display: flex;
             flex-direction: column;
             width: 100%;
@@ -64,6 +91,22 @@ class Viewer extends Component {
             align-items: stretch;
             flex: 1;
             overflow-y: auto;
+          }
+
+          .overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 100;
+            background: rgba(255, 255, 255, 0.75);
+          }
+
+          @media screen and (min-width: 1024px) {
+            .overlay {
+              display: none;
+            }
           }
         `}</style>
         <style jsx global>{`

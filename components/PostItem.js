@@ -129,10 +129,6 @@ class PostItem extends Component {
             background: #f9f9f9;
           }
 
-          .post-item:hover .post-info {
-            display: flex;
-          }
-
           .post-content {
             width: 100%;
           }
@@ -169,6 +165,12 @@ class PostItem extends Component {
 
           .post-self-text {
             margin: 5px 0 0 0;
+          }
+
+          @media screen and (min-width: 1024px) {
+            .post-item:hover .post-info {
+              display: flex;
+            }
           }
         `}</style>
       </div>

@@ -36,8 +36,8 @@ class ReplyBox extends Component {
             border-radius: ${type === "post" ? "6px" : "4px"};
             margin-top: 0;
             margin-left: ${type === "post" ? "20px" : "10px"};
-            margin-right: ${type === "post" ? "20px" : "20px"};
-            margin-bottom: ${type === "post" ? "20px" : "65px"};
+            margin-right: ${type === "post" ? "20px" : "10px"};
+            margin-bottom: 20px;
           }
 
           .root :global(svg) {
@@ -96,6 +96,13 @@ class ReplyBox extends Component {
 
           .mention :global(svg) {
             fill: #717274;
+          }
+
+          @media screen and (min-width: 1024px) {
+            .root {
+              margin-right: 20px;
+              margin-bottom: ${type === "post" ? "20px" : "65px"};
+            }
           }
         `}</style>
       </div>

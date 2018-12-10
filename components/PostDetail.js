@@ -71,7 +71,7 @@ class PostDetail extends Component {
         </div>
         <style jsx>{`
           .root {
-            width: 492px;
+            width: 100%;
             height: 100%;
             display: flex;
             flex-direction: column;
@@ -84,9 +84,9 @@ class PostDetail extends Component {
             align-items: center;
             flex-shrink: 0;
             flex-grow: 0;
-            padding: 19px 12px;
             background: #f9f9f9;
             border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+            padding: 12px 0 12px 12px;
           }
 
           .heading h2 {
@@ -178,15 +178,25 @@ class PostDetail extends Component {
             margin: 2px 0 0 10px;
           }
 
-          @media screen and (max-width: 1440px) {
+          @media screen and (min-width: 1024px) {
+            .root {
+              width: 392px;
+            }
+
+            .heading {
+              padding: 19px 12px;
+            }
+          }
+
+          @media screen and (min-width: 1367px) {
             .root {
               width: 442px;
             }
           }
 
-          @media screen and (max-width: 1366px) {
+          @media screen and (min-width: 1441px) {
             .root {
-              width: 392px;
+              width: 492px;
             }
           }
         `}</style>

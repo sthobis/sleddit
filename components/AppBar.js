@@ -2,6 +2,7 @@ import PropTypes from "prop-types";
 import React, { Component } from "react";
 import {
   AtIcon,
+  DropdownIcon,
   EditIcon,
   HashIcon,
   InfoIcon,
@@ -17,9 +18,15 @@ import {
 
 class AppBar extends Component {
   render() {
-    const { subreddit } = this.props;
+    const { subreddit, openSidebar } = this.props;
     return (
       <div className="root">
+        <button className="team" type="button" onClick={openSidebar}>
+          <span className="team-name">
+            sleddit
+            <DropdownIcon />
+          </span>
+        </button>
         <div className="subreddit">
           <div className="subreddit-name">
             {subreddit === "all" ? <LockIcon /> : <HashIcon />}
@@ -69,10 +76,36 @@ class AppBar extends Component {
           .root {
             flex-shrink: 0;
             display: flex;
-            justify-content: space-between;
-            align-items: stretch;
-            padding: 9px 12px 9px 18px;
+            align-items: center;
+            padding: 9px 12px;
             border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+          }
+
+          .team {
+            position: relative;
+            display: flex;
+            flex-shrink: 0;
+            flex-grow: 0;
+            flex-direction: column;
+            border: none;
+            background: transparent;
+            padding: 0;
+            font-family: inherit;
+          }
+
+          .team-name {
+            display: flex;
+            align-items: center;
+            color: #2c2d30;
+            font-size: 18px;
+            font-weight: 900;
+          }
+
+          .team-name :global(svg) {
+            width: 12px;
+            height: 12px;
+            fill: rgb(184, 176, 183);
+            margin: 0 0 1px 4px;
           }
 
           .subreddit {
@@ -86,7 +119,7 @@ class AppBar extends Component {
             color: #2c2d30;
             font-size: 18px;
             font-weight: 900;
-            margin: 0 0 5px 0;
+            margin: 0 0 0 10px;
           }
 
           .subreddit-name :global(svg) {
@@ -97,7 +130,7 @@ class AppBar extends Component {
           }
 
           .subreddit-info {
-            display: flex;
+            display: none;
             align-items: center;
             margin: 0;
             padding: 0;
@@ -144,7 +177,7 @@ class AppBar extends Component {
           }
 
           .menu {
-            display: flex;
+            display: none;
             justify-content: flex-end;
             align-items: center;
             width: 100%;
@@ -183,6 +216,30 @@ class AppBar extends Component {
             height: 18px;
             margin: 0 5px 0 0;
           }
+
+          @media screen and (min-width: 1024px) {
+            .root {
+              justify-content: space-between;
+              align-items: stretch;
+              padding-left: 18px;
+            }
+
+            .team {
+              display: none;
+            }
+
+            .menu {
+              display: flex;
+            }
+
+            .subreddit-name {
+              margin: 0 0 5px 0;
+            }
+
+            .subreddit-info {
+              display: flex;
+            }
+          }
         `}</style>
       </div>
     );
@@ -190,7 +247,8 @@ class AppBar extends Component {
 }
 
 AppBar.propTypes = {
-  subreddit: PropTypes.string.isRequired
+  subreddit: PropTypes.string.isRequired,
+  openSidebar: PropTypes.func.isRequired
 };
 
 export default AppBar;
