@@ -16,6 +16,16 @@ function unescape(str) {
 }
 
 class PostItem extends Component {
+  getImage = () => {
+    let img = `/static/avatar${this.props.index % 2 === 0 ? "-2" : ""}.png`;
+
+    if (this.props.post.nsfw) {
+      img = "/static/nsfw.jpg";
+    }
+
+    return img;
+  };
+
   render() {
     const {
       subreddit,
@@ -29,12 +39,14 @@ class PostItem extends Component {
         selfText,
         title,
         url,
-        domain
+        domain,
+        nsfw
       },
       index,
       active,
       isRedditBlocked
     } = this.props;
+
     return (
       <div className={`post-item${active ? " active" : ""}`}>
         {type === "post" && (
@@ -55,7 +67,7 @@ class PostItem extends Component {
         <img
           className="post-author-thumbnail"
           alt={author}
-          src={`/static/avatar${index % 2 === 0 ? "-2" : ""}.png`}
+          src={this.getImage()}
         />
         <div className="post-content">
           <div>

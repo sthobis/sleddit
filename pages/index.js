@@ -17,7 +17,8 @@ function formatPosts(posts) {
       stickied: post.stickied,
       title: post.title,
       url: post.url,
-      domain: post.domain
+      domain: post.domain,
+      nsfw: post.over_18
     };
   });
 }
