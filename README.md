@@ -12,6 +12,10 @@ Slack-styled reddit viewer. [Demo](https://sleddit.now.sh).
 - [ ] Tweet link
 - [ ] v.redd.it link
 
+## NSFW post
+
+NSFW posts are tagged with red avatar/thumbnail.
+
 ## Setup
 
 ```
