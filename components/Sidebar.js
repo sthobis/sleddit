@@ -208,7 +208,7 @@ class Sidebar extends Component {
               </span>
               <ul className="dm-list">
                 <li>
-                  <span className="dm-item hover">
+                  <span className="dm-item hover bot">
                     <HeartIcon />
                     slackbot
                   </span>
@@ -490,14 +490,20 @@ class Sidebar extends Component {
             padding: 3px 14px 4px;
           }
 
-          .dm-item::before {
+          .dm-item :global(svg) {
+            width: 12px;
+            height: 12px;
+            margin: 2px 4px 0 0.5px;
+          }
+
+          .dm-item:not(.bot)::before {
             content: "";
             display: block;
             width: 9px;
             height: 9px;
             background: #39948c;
             border-radius: 50%;
-            margin: 2px 6px 0 0;
+            margin: 2px 6px 0 2px;
           }
 
           @media screen and (min-width: 1024px) {
