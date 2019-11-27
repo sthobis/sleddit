@@ -5,11 +5,11 @@ import AppBar from "./AppBar";
 import PostDetail from "./PostDetail";
 import PostList from "./PostList";
 import Sidebar from "./Sidebar";
+import { SORTING_OPTIONS } from "../constants";
 
 class Viewer extends Component {
   state = {
-    isSidebarOpened: false,
-    isSettingsOpened: false
+    isSidebarOpened: false
   };
 
   componentDidUpdate(prevProps) {
@@ -17,35 +17,16 @@ class Viewer extends Component {
       this.props.subreddit !== prevProps.subreddit &&
       this.state.isSidebarOpened
     ) {
-      this.setState({
-        isSidebarOpened: false,
-        isSettingsOpened: false
-      });
+      this.setState({ isSidebarOpened: false });
     }
   }
 
   openSidebar = () => {
-    this.setState({
-      isSidebarOpened: true
-    });
+    this.setState({ isSidebarOpened: true });
   };
 
   closeSidebar = () => {
-    this.setState({
-      isSidebarOpened: false
-    });
-  };
-
-  openSettings = () => {
-    this.setState({
-      isSettingsOpened: true
-    });
-  };
-
-  closeSettings = () => {
-    this.setState({
-      isSettingsOpened: false
-    });
+    this.setState({ isSidebarOpened: false });
   };
 
   render() {
@@ -75,7 +56,7 @@ class Viewer extends Component {
             subreddit={subreddit}
             openSidebar={this.openSidebar}
             openSettings={this.openSettings}
-            preferredSorting={settings.preferredSorting}
+            settings={settings}
           />
           <div className="row">
             <PostList
@@ -216,14 +197,7 @@ class Viewer extends Component {
 
 Viewer.propTypes = {
   settings: PropTypes.shape({
-    preferredSorting: PropTypes.objectOf([
-      "top",
-      "best",
-      "new",
-      "controversial",
-      "old",
-      "q&a"
-    ])
+    preferredSorting: PropTypes.oneOf(SORTING_OPTIONS)
   }),
   subreddit: PropTypes.string.isRequired,
   posts: PropTypes.arrayOf(PropTypes.object).isRequired,
