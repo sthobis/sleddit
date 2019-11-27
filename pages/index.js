@@ -3,6 +3,7 @@ import cookie from "cookie";
 import PropTypes from "prop-types";
 import React, { Component } from "react";
 import Viewer from "../components/Viewer";
+import { SORTING_OPTIONS } from "../constants";
 import { COOKIE_KEY_SUBREDDITS, COOKIE_SETTINGS } from "../config";
 
 function formatPosts(posts) {
@@ -151,14 +152,7 @@ class HomePage extends Component {
 
 HomePage.propTypes = {
   settings: PropTypes.shape({
-    preferredSorting: PropTypes.objectOf([
-      "top",
-      "best",
-      "new",
-      "controversial",
-      "old",
-      "q&a"
-    ])
+    preferredSorting: PropTypes.oneOf(SORTING_OPTIONS)
   }),
   subreddit: PropTypes.string.isRequired,
   posts: PropTypes.array.isRequired,
