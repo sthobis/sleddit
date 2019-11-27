@@ -8,7 +8,8 @@ import Sidebar from "./Sidebar";
 
 class Viewer extends Component {
   state = {
-    isSidebarOpened: false
+    isSidebarOpened: false,
+    isSettingsOpened: false
   };
 
   componentDidUpdate(prevProps) {
@@ -16,16 +17,35 @@ class Viewer extends Component {
       this.props.subreddit !== prevProps.subreddit &&
       this.state.isSidebarOpened
     ) {
-      this.setState({ isSidebarOpened: false });
+      this.setState({
+        isSidebarOpened: false,
+        isSettingsOpened: false
+      });
     }
   }
 
   openSidebar = () => {
-    this.setState({ isSidebarOpened: true });
+    this.setState({
+      isSidebarOpened: true
+    });
   };
 
   closeSidebar = () => {
-    this.setState({ isSidebarOpened: false });
+    this.setState({
+      isSidebarOpened: false
+    });
+  };
+
+  openSettings = () => {
+    this.setState({
+      isSettingsOpened: true
+    });
+  };
+
+  closeSettings = () => {
+    this.setState({
+      isSettingsOpened: false
+    });
   };
 
   render() {
@@ -34,7 +54,8 @@ class Viewer extends Component {
       posts,
       expandedPost,
       isRedditBlocked,
-      savedSubreddits
+      savedSubreddits,
+      settings
     } = this.props;
     const { isSidebarOpened } = this.state;
 
@@ -50,7 +71,12 @@ class Viewer extends Component {
           savedSubreddits={savedSubreddits}
         />
         <main className="content">
-          <AppBar subreddit={subreddit} openSidebar={this.openSidebar} />
+          <AppBar
+            subreddit={subreddit}
+            openSidebar={this.openSidebar}
+            openSettings={this.openSettings}
+            preferredSorting={settings.preferredSorting}
+          />
           <div className="row">
             <PostList
               subreddit={subreddit}
@@ -155,6 +181,33 @@ class Viewer extends Component {
             border-left: 3px solid rgba(0, 0, 0, 0.15);
             padding: 0 0 0 8px;
           }
+
+          .settingsModalOverlay {
+            background-color: 0;
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+          }
+
+          .settingsModal {
+            font-family: Lato, sans-serif;
+            font-size: 15px;
+            font-variant-ligatures: common-ligatures;
+            -moz-osx-font-smoothing: grayscale;
+            -webkit-font-smoothing: antialiased;
+            box-shadow: 0 0 0 1px grey, 0 4px 12px 0 rgba(0, 0, 0, 0.12);
+            background-color: #f8f8f8;
+            border-radius: 6px;
+            user-select: none;
+            padding: 20px;
+            position: absolute;
+            height: 55px;
+            right: 380px;
+            top: 50px;
+          }
         `}</style>
       </div>
     );
@@ -162,6 +215,16 @@ class Viewer extends Component {
 }
 
 Viewer.propTypes = {
+  settings: PropTypes.shape({
+    preferredSorting: PropTypes.objectOf([
+      "top",
+      "best",
+      "new",
+      "controversial",
+      "old",
+      "q&a"
+    ])
+  }),
   subreddit: PropTypes.string.isRequired,
   posts: PropTypes.arrayOf(PropTypes.object).isRequired,
   expandedPost: PropTypes.shape({
