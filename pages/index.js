@@ -3,7 +3,7 @@ import cookie from "cookie";
 import PropTypes from "prop-types";
 import React, { Component } from "react";
 import Viewer from "../components/Viewer";
-import { COOKIE_KEY_SUBREDDITS } from "../config";
+import { COOKIE_KEY_SUBREDDITS, COOKIE_SETTINGS } from "../config";
 
 function formatPosts(posts) {
   return posts.map(({ data: post }) => {
@@ -52,6 +52,9 @@ class HomePage extends Component {
     const savedSubreddits = cookies[COOKIE_KEY_SUBREDDITS]
       ? cookies[COOKIE_KEY_SUBREDDITS].split(",")
       : ["all", "gifs", "pics", "videos"];
+    const settings = cookies[COOKIE_SETTINGS]
+      ? JSON.parse(cookies[COOKIE_KEY_SORTING])
+      : { preferredSorting: "top" };
     if (savedSubreddits.findIndex(el => el === subreddit) < 0) {
       savedSubreddits.push(subreddit);
     }
@@ -59,7 +62,11 @@ class HomePage extends Component {
 
     try {
       let fetchRequest = [
-        axios(`https://www.reddit.com/r/${subreddit}/hot.json?limit=20`)
+        axios(
+          `https://www.reddit.com/r/${subreddit}/${
+            settings.preferredSorting
+          }.json?limit=20`
+        )
       ];
       if (post) {
         fetchRequest.push(
@@ -80,6 +87,7 @@ class HomePage extends Component {
         : null;
 
       return {
+        settings,
         subreddit,
         posts,
         expandedPost,
@@ -89,6 +97,7 @@ class HomePage extends Component {
     } catch (err) {
       console.error(err);
       return {
+        settings,
         subreddit,
         posts: [],
         expandedPost: null,
@@ -116,6 +125,7 @@ class HomePage extends Component {
 
   render() {
     const {
+      settings,
       subreddit,
       error,
       posts,
@@ -128,6 +138,7 @@ class HomePage extends Component {
       <>
         <Viewer
           subreddit={subreddit}
+          settings={settings}
           posts={posts}
           expandedPost={expandedPost}
           isRedditBlocked={isRedditBlocked}
@@ -139,6 +150,16 @@ class HomePage extends Component {
 }
 
 HomePage.propTypes = {
+  settings: PropTypes.shape({
+    preferredSorting: PropTypes.objectOf([
+      "top",
+      "best",
+      "new",
+      "controversial",
+      "old",
+      "q&a"
+    ])
+  }),
   subreddit: PropTypes.string.isRequired,
   posts: PropTypes.array.isRequired,
   expandedPost: PropTypes.shape({
