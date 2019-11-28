@@ -4,7 +4,7 @@ import PropTypes from "prop-types";
 import React, { Component } from "react";
 import Viewer from "../components/Viewer";
 import { SORTING_OPTIONS } from "../constants";
-import { COOKIE_KEY_SUBREDDITS, COOKIE_SETTINGS } from "../config";
+import { COOKIE_KEY_SUBREDDITS, COOKIE_PREF_SORTING } from "../config";
 
 function formatPosts(posts) {
   return posts.map(({ data: post }) => {
@@ -50,12 +50,17 @@ class HomePage extends Component {
     const cookies = req
       ? cookie.parse(req.headers.cookie || "")
       : cookie.parse(window.document.cookie);
+
     const savedSubreddits = cookies[COOKIE_KEY_SUBREDDITS]
       ? cookies[COOKIE_KEY_SUBREDDITS].split(",")
       : ["all", "gifs", "pics", "videos"];
-    const settings = cookies[COOKIE_SETTINGS]
-      ? JSON.parse(cookies[COOKIE_KEY_SORTING])
-      : { preferredSorting: "top" };
+
+    const preferredSorting = cookies[COOKIE_PREF_SORTING] || "hot";
+
+    const settings = {
+      preferredSorting
+    };
+
     if (savedSubreddits.findIndex(el => el === subreddit) < 0) {
       savedSubreddits.push(subreddit);
     }
@@ -151,9 +156,6 @@ class HomePage extends Component {
 }
 
 HomePage.propTypes = {
-  settings: PropTypes.shape({
-    preferredSorting: PropTypes.oneOf(SORTING_OPTIONS)
-  }),
   subreddit: PropTypes.string.isRequired,
   posts: PropTypes.array.isRequired,
   expandedPost: PropTypes.shape({
@@ -161,7 +163,10 @@ HomePage.propTypes = {
     comments: PropTypes.array
   }),
   savedSubreddits: PropTypes.array.isRequired,
-  error: PropTypes.any
+  error: PropTypes.any,
+  settings: PropTypes.shape({
+    preferredSorting: PropTypes.oneOf(SORTING_OPTIONS)
+  })
 };
 
 export default HomePage;
