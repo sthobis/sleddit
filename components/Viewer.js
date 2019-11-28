@@ -192,13 +192,13 @@ class Viewer extends Component {
             font-variant-ligatures: common-ligatures;
             -moz-osx-font-smoothing: grayscale;
             -webkit-font-smoothing: antialiased;
-            box-shadow: 0 0 0 1px grey, 0 4px 12px 0 rgba(0, 0, 0, 0.12);
+            box-shadow: 0 0 0 1px lightgrey, 0 4px 12px 0 rgba(0, 0, 0, 0.12);
+            color: rgb(29, 28, 29);
             background-color: #f8f8f8;
             border-radius: 6px;
             user-select: none;
             padding: 20px;
             position: absolute;
-            height: 55px;
             right: 380px;
             top: 50px;
           }
