@@ -6,6 +6,7 @@ import PostDetail from "./PostDetail";
 import PostList from "./PostList";
 import Sidebar from "./Sidebar";
 import { SORTING_OPTIONS } from "../constants";
+import { COOKIE_PREF_SORTING } from "../config";
 
 class Viewer extends Component {
   state = {
@@ -27,6 +28,18 @@ class Viewer extends Component {
 
   closeSidebar = () => {
     this.setState({ isSidebarOpened: false });
+  };
+
+  handleChangeSorting = e => {
+    if (e && e.target && SORTING_OPTIONS.includes(e.target.value)) {
+      window.document.cookie = cookie.serialize(
+        COOKIE_PREF_SORTING,
+        e.target.value,
+        {
+          expires: new Date("1 Jan 2030")
+        }
+      );
+    }
   };
 
   render() {
@@ -196,9 +209,6 @@ class Viewer extends Component {
 }
 
 Viewer.propTypes = {
-  settings: PropTypes.shape({
-    preferredSorting: PropTypes.oneOf(SORTING_OPTIONS)
-  }),
   subreddit: PropTypes.string.isRequired,
   posts: PropTypes.arrayOf(PropTypes.object).isRequired,
   expandedPost: PropTypes.shape({
@@ -206,7 +216,10 @@ Viewer.propTypes = {
     comments: PropTypes.array
   }),
   isRedditBlocked: PropTypes.bool.isRequired,
-  savedSubreddits: PropTypes.array.isRequired
+  savedSubreddits: PropTypes.array.isRequired,
+  settings: PropTypes.shape({
+    preferredSorting: PropTypes.oneOf(SORTING_OPTIONS)
+  })
 };
 
 export default Viewer;

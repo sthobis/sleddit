@@ -1,7 +1,9 @@
 import PropTypes from "prop-types";
 import Modal from "react-modal";
 import React, { Component } from "react";
+import cookie from "cookie";
 import { SORTING_OPTIONS } from "../constants";
+import { COOKIE_PREF_SORTING } from "../config";
 import {
   AtIcon,
   DropdownIcon,
@@ -35,6 +37,19 @@ class AppBar extends Component {
       showSettingsModal: !this.state.showSettingsModal
     });
   }
+
+  updatePreferredSortingCookie = newPreference => {
+    window.document.cookie = cookie.serialize(
+      COOKIE_PREF_SORTING,
+      newPreference.target.value,
+      {
+        expires: new Date("1 Jan 2030")
+      }
+    );
+
+    this.toggleSettingsModal();
+    location.reload();
+  };
 
   render() {
     const { subreddit, openSidebar, settings } = this.props;
@@ -83,7 +98,7 @@ class AppBar extends Component {
             >
               <span className="menu-settings">
                 Sort by:
-                <select>
+                <select onChange={this.updatePreferredSortingCookie}>
                   <option value={settings.preferredSorting}>
                     {settings.preferredSorting}
                   </option>
@@ -301,7 +316,6 @@ class AppBar extends Component {
 AppBar.propTypes = {
   subreddit: PropTypes.string.isRequired,
   openSidebar: PropTypes.func.isRequired,
-  openSettings: PropTypes.func.isRequired,
   settings: PropTypes.shape({
     preferredSorting: PropTypes.oneOf(SORTING_OPTIONS)
   })

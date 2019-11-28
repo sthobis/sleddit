@@ -1,8 +1,1 @@
-export const SORTING_OPTIONS = [
-  "top",
-  "best",
-  "new",
-  "controversial",
-  "old",
-  "q&a"
-];
+export const SORTING_OPTIONS = ["hot", "top", "best", "new", "controversial"];
