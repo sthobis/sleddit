@@ -271,6 +271,11 @@ class AppBar extends Component {
           .menu-settings {
             display: flex;
             align-items: center;
+            padding: 5px;
+          }
+
+          .menu-settings select {
+            margin: 0 10px;
           }
 
           .menu .menu-search :global(svg) {
