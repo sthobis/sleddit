@@ -23,20 +23,15 @@ import {
 Modal.setAppElement(".root");
 
 class AppBar extends Component {
-  constructor() {
-    super();
-    this.state = {
-      showSettingsModal: false
-    };
+  state = {
+    showSettingsModal: false
+  };
 
-    this.toggleSettingsModal = this.toggleSettingsModal.bind(this);
-  }
-
-  toggleSettingsModal() {
+  toggleSettingsModal = () => {
     this.setState({
       showSettingsModal: !this.state.showSettingsModal
     });
-  }
+  };
 
   updatePreferredSortingCookie = newPreference => {
     window.document.cookie = cookie.serialize(
