@@ -20,11 +20,11 @@ import {
 } from "./Icons";
 import { Subreddit, Settings } from "../types";
 
-interface AppBarProps {
+type AppBarProps = {
   subreddit: Subreddit;
   settings: Settings;
   openSidebar: (e: MouseEvent<HTMLButtonElement>) => void;
-}
+};
 
 Modal.setAppElement(".root");
 
@@ -44,7 +44,7 @@ const AppBar = ({ subreddit, settings, openSidebar }: AppBarProps) => {
       }
     );
 
-    this.toggleSettingsModal();
+    toggleSettingsModal();
     window.location.reload();
   };
 
@@ -91,8 +91,8 @@ const AppBar = ({ subreddit, settings, openSidebar }: AppBarProps) => {
             isOpen={showSettingsModal}
             onRequestClose={toggleSettingsModal}
           >
-            <span className="menu-settings">
-              Sort by:
+            <span>
+              Sort by
               <select onChange={updateSortingSettings}>
                 <option value={settings.sorting}>{settings.sorting}</option>
                 {SORTING_OPTIONS.map(
@@ -106,7 +106,7 @@ const AppBar = ({ subreddit, settings, openSidebar }: AppBarProps) => {
               </select>
             </span>
           </Modal>
-          <div className="menu-setting" onClick={this.toggleSettingsModal}>
+          <div className="menu-setting" onClick={toggleSettingsModal}>
             <SettingIcon />
           </div>
         </li>
@@ -246,9 +246,15 @@ const AppBar = ({ subreddit, settings, openSidebar }: AppBarProps) => {
         }
 
         .menu :global(svg) {
+          display: block;
           width: 22px;
           height: 22px;
           fill: #717274;
+        }
+
+        :global(.settings-modal) select {
+          font-size: 14px;
+          margin-left: 10px;
         }
 
         .menu-setting {

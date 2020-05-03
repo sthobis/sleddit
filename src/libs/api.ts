@@ -1,7 +1,7 @@
 import axios from "axios";
 import { Nullable, Settings } from "../types";
 
-export interface RedditResponse<T> {
+export type RedditResponse<T> = {
   kind: "Listing";
   data: {
     modhash: string;
@@ -13,9 +13,9 @@ export interface RedditResponse<T> {
     after: string;
     before: Nullable<string>;
   };
-}
+};
 
-export interface PostResponse {
+export type PostResponse = {
   id: string;
   author: string;
   num_comments: number;
@@ -27,15 +27,15 @@ export interface PostResponse {
   url: string;
   domain: string;
   over_18: boolean;
-}
+};
 
-export interface CommentResponse {
+export type CommentResponse = {
   id: string;
   author: string;
   body_html: string;
   created_utc: number;
   score: number;
-}
+};
 
 export const fetchSubredditPosts = (
   subreddit: string,

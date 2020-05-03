@@ -1,10 +1,10 @@
 import Link from "next/link";
 import React, { PropsWithChildren, HTMLAttributes } from "react";
 
-interface DynamicLinkProps extends HTMLAttributes<HTMLAnchorElement> {
+type DynamicLinkProps = HTMLAttributes<HTMLAnchorElement> & {
   isRedditBlocked: boolean;
   href: string;
-}
+};
 
 const DynamicLink = ({
   isRedditBlocked,

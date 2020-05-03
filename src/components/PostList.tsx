@@ -4,7 +4,7 @@ import PostItem from "./PostItem";
 import ReplyBar from "./ReplyBar";
 import { Post, Subreddit, Comment, Nullable } from "../types";
 
-interface PostListProps {
+type PostListProps = {
   subreddit: Subreddit;
   posts: Post[];
   expandedPost: Nullable<{
@@ -12,7 +12,7 @@ interface PostListProps {
     comments: Comment[];
   }>;
   isRedditBlocked: boolean;
-}
+};
 
 const PostList = ({
   subreddit,

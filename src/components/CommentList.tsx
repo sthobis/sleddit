@@ -2,9 +2,9 @@ import React from "react";
 import CommentItem from "./CommentItem";
 import { Comment } from "../types";
 
-interface CommentListProps {
+type CommentListProps = {
   comments: Comment[];
-}
+};
 
 const CommentList = ({ comments }: CommentListProps) => {
   return (

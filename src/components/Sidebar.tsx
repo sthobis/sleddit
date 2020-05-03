@@ -27,12 +27,12 @@ import {
 import Link from "./Link";
 import { Subreddit } from "../types";
 
-interface SidebarProps {
+type SidebarProps = {
   isSidebarOpened: boolean;
   activeSubreddit: Subreddit;
   isRedditBlocked: boolean;
   savedSubreddits: Subreddit[];
-}
+};
 
 const Sidebar = ({
   isSidebarOpened,
@@ -89,7 +89,10 @@ const Sidebar = ({
   ) => {
     e.preventDefault();
     updateSubreddits(subreddits => {
-      subreddits.splice(subreddits.findIndex(s => s === removedSubreddit), 1);
+      subreddits.splice(
+        subreddits.findIndex(s => s === removedSubreddit),
+        1
+      );
     });
 
     if (removedSubreddit === activeSubreddit) {

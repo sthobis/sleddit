@@ -7,14 +7,14 @@ import Sidebar from "./Sidebar";
 import { usePrevious } from "../libs/hooks";
 import { Nullable, Thread, Post, Subreddit, Settings } from "../types";
 
-export interface ViewerProps {
+type ViewerProps = {
   savedSubreddits: string[];
   subreddit: Subreddit;
   posts: Post[];
   expandedPost: Nullable<Thread>;
   isRedditBlocked: boolean;
   settings: Settings;
-}
+};
 
 const Viewer = ({
   savedSubreddits,

@@ -12,10 +12,10 @@ function unescape(str: string) {
   return result;
 }
 
-interface CommentItemProps {
+type CommentItemProps = {
   comment: Comment;
   index: number;
-}
+};
 
 const CommentItem = ({
   comment: { author, body, created, score },
@@ -29,7 +29,7 @@ const CommentItem = ({
       <img
         className="comment-author-thumbnail"
         alt={author}
-        src={`/static/avatar${index % 2 === 0 ? "-2" : ""}.png`}
+        src={`/avatar${index % 2 === 0 ? "-2" : ""}.png`}
       />
       <div className="comment-content">
         <div>

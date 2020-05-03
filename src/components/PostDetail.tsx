@@ -8,12 +8,12 @@ import ReplyBar from "./ReplyBar";
 import { Subreddit, Post, Comment } from "../types";
 import { usePrevious } from "../libs/hooks";
 
-interface PostDetailProps {
+type PostDetailProps = {
   subreddit: Subreddit;
   post: Post;
   comments: Comment[];
   isRedditBlocked: boolean;
-}
+};
 
 const PostDetail = ({
   subreddit,
@@ -28,14 +28,11 @@ const PostDetail = ({
 
   const prevPost = usePrevious<Post>(post);
 
-  useEffect(
-    () => {
-      if (!prevPost || prevPost.id !== post.id) {
-        scrollToTop();
-      }
-    },
-    [post]
-  );
+  useEffect(() => {
+    if (!prevPost || prevPost.id !== post.id) {
+      scrollToTop();
+    }
+  }, [post]);
 
   return (
     <div className="root">

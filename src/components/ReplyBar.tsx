@@ -2,10 +2,10 @@ import React from "react";
 import { AtIcon, PlusIcon } from "./Icons";
 import { Subreddit, PostItemEnum } from "../types";
 
-interface ReplyBoxProps {
+type ReplyBoxProps = {
   type: PostItemEnum;
   subreddit: Subreddit;
-}
+};
 
 const ReplyBox = ({ type, subreddit }: ReplyBoxProps) => {
   return (

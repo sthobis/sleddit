@@ -1,10 +1,10 @@
 import React, { ReactElement } from "react";
 
-interface EmbedMediaProps {
+type EmbedMediaProps = {
   type: string;
   url: string;
   domain: string;
-}
+};
 
 // https://gist.github.com/takien/4077195
 function getYoutubeId(url: string): string {

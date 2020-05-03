@@ -15,14 +15,14 @@ function unescape(str) {
   return result;
 }
 
-interface PostItemProps {
+type PostItemProps = {
   subreddit: Subreddit;
   type: PostItemEnum;
   post: Post;
   index: number;
   active: boolean;
   isRedditBlocked: boolean;
-}
+};
 
 const PostItem = ({
   subreddit,
@@ -33,7 +33,7 @@ const PostItem = ({
   isRedditBlocked
 }: PostItemProps) => {
   const getImage = () => {
-    return `/static/avatar${index % 2 === 0 ? "-2" : ""}.png`;
+    return `/avatar${index % 2 === 0 ? "-2" : ""}.png`;
   };
 
   const {

@@ -7,14 +7,14 @@ import { Nullable, Post, Thread, Subreddit, Settings } from "../types";
 import { fetchSubredditPosts, fetchPostThread } from "../libs/api";
 import { formatPosts, formatComments } from "../libs/formatter";
 
-export interface HomePageProps {
+export type HomePageProps = {
   savedSubreddits: Subreddit[];
   subreddit: Subreddit;
   posts: Post[];
   expandedPost: Nullable<Thread>;
   settings: Settings;
   error: Nullable<any>;
-}
+};
 
 const HomePage: NextPage<HomePageProps> = ({ error, ...props }) => {
   // assume that reddit is blocked
@@ -35,12 +35,12 @@ const HomePage: NextPage<HomePageProps> = ({ error, ...props }) => {
   return <Viewer {...props} isRedditBlocked={isRedditBlocked} />;
 };
 
-interface HomePageContext extends NextPageContext {
+type HomePageContext = NextPageContext & {
   query: {
     subreddit: Subreddit;
     postId: string;
   };
-}
+};
 
 HomePage.getInitialProps = async ({
   req,
