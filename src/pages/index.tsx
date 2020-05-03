@@ -2,8 +2,8 @@ import cookie from "cookie";
 import React, { useState, useEffect } from "react";
 import { NextPage, NextPageContext } from "next";
 import Viewer from "../components/Viewer";
-import { COOKIE_KEY_SUBREDDITS } from "../config";
-import { Nullable, Post, Thread, Subreddit } from "../types";
+import { COOKIE_KEY_SUBREDDITS, COOKIE_KEY_SORTING } from "../config";
+import { Nullable, Post, Thread, Subreddit, Settings } from "../types";
 import { fetchSubredditPosts, fetchPostThread } from "../libs/api";
 import { formatPosts, formatComments } from "../libs/formatter";
 
@@ -12,6 +12,7 @@ export interface HomePageProps {
   subreddit: Subreddit;
   posts: Post[];
   expandedPost: Nullable<Thread>;
+  settings: Settings;
   error: Nullable<any>;
 }
 
@@ -41,15 +42,25 @@ interface HomePageContext extends NextPageContext {
   };
 }
 
-HomePage.getInitialProps = async ({ req, query }: HomePageContext) => {
+HomePage.getInitialProps = async ({
+  req,
+  query
+}: HomePageContext): Promise<HomePageProps> => {
   const { subreddit = "all", postId } = query;
 
   const cookies = req
     ? cookie.parse(req.headers.cookie || "")
     : cookie.parse(window.document.cookie);
+
   const savedSubreddits = cookies[COOKIE_KEY_SUBREDDITS]
     ? cookies[COOKIE_KEY_SUBREDDITS].split(",")
     : ["all", "gifs", "pics", "videos"];
+
+  const sorting: Settings["sorting"] = cookies[COOKIE_KEY_SORTING] || "hot";
+  const settings = {
+    sorting
+  };
+
   if (savedSubreddits.findIndex(el => el === subreddit) < 0) {
     savedSubreddits.push(subreddit);
   }
@@ -57,7 +68,7 @@ HomePage.getInitialProps = async ({ req, query }: HomePageContext) => {
 
   try {
     const [subredditJson, postJson] = await Promise.all([
-      fetchSubredditPosts(subreddit),
+      fetchSubredditPosts(subreddit, sorting),
       postId && fetchPostThread(subreddit, postId)
     ]);
 
@@ -81,6 +92,7 @@ HomePage.getInitialProps = async ({ req, query }: HomePageContext) => {
       subreddit,
       posts,
       expandedPost,
+      settings,
       error: null
     };
   } catch (err) {
@@ -90,6 +102,7 @@ HomePage.getInitialProps = async ({ req, query }: HomePageContext) => {
       subreddit,
       posts: [],
       expandedPost: null,
+      settings,
       error: err.message || err
     };
   }

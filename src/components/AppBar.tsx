@@ -1,4 +1,8 @@
-import React, { MouseEvent } from "react";
+import React, { useState, MouseEvent, ChangeEvent } from "react";
+import Modal from "react-modal";
+import cookie from "cookie";
+import { SORTING_OPTIONS } from "../constants";
+import { COOKIE_KEY_SORTING } from "../config";
 import {
   AtIcon,
   DropdownIcon,
@@ -14,14 +18,36 @@ import {
   SettingIcon,
   StarIcon
 } from "./Icons";
-import { Subreddit } from "../types";
+import { Subreddit, Settings } from "../types";
 
 interface AppBarProps {
   subreddit: Subreddit;
+  settings: Settings;
   openSidebar: (e: MouseEvent<HTMLButtonElement>) => void;
 }
 
-const AppBar = ({ subreddit, openSidebar }: AppBarProps) => {
+Modal.setAppElement(".root");
+
+const AppBar = ({ subreddit, settings, openSidebar }: AppBarProps) => {
+  const [showSettingsModal, setShowSettingsModal] = useState(false);
+
+  const toggleSettingsModal = () => {
+    setShowSettingsModal(prevShowSettingsModal => !prevShowSettingsModal);
+  };
+
+  const updateSortingSettings = (e: ChangeEvent<HTMLSelectElement>) => {
+    window.document.cookie = cookie.serialize(
+      COOKIE_KEY_SORTING,
+      e.target.value,
+      {
+        expires: new Date("1 Jan 2030")
+      }
+    );
+
+    this.toggleSettingsModal();
+    window.location.reload();
+  };
+
   return (
     <div className="root">
       <button className="team" type="button" onClick={openSidebar}>
@@ -58,8 +84,31 @@ const AppBar = ({ subreddit, openSidebar }: AppBarProps) => {
         <li>
           <InfoIcon />
         </li>
-        <li>
-          <SettingIcon />
+        <li className="modal-container">
+          <Modal
+            className="settings-modal"
+            overlayClassName="settings-modal-overlay"
+            isOpen={showSettingsModal}
+            onRequestClose={toggleSettingsModal}
+          >
+            <span className="menu-settings">
+              Sort by:
+              <select onChange={updateSortingSettings}>
+                <option value={settings.sorting}>{settings.sorting}</option>
+                {SORTING_OPTIONS.map(
+                  opt =>
+                    opt !== settings.sorting && (
+                      <option key={opt} value={opt}>
+                        {opt}
+                      </option>
+                    )
+                )}
+              </select>
+            </span>
+          </Modal>
+          <div className="menu-setting" onClick={this.toggleSettingsModal}>
+            <SettingIcon />
+          </div>
         </li>
         <li className="menu-search">
           <SearchIcon />
@@ -200,6 +249,10 @@ const AppBar = ({ subreddit, openSidebar }: AppBarProps) => {
           width: 22px;
           height: 22px;
           fill: #717274;
+        }
+
+        .menu-setting {
+          cursor: pointer;
         }
 
         .menu-search {

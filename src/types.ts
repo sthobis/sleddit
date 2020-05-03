@@ -1,10 +1,12 @@
+import { SORTING_OPTIONS } from "./constants";
+
 export type Nullable<T> = T | null;
 
 export type PostItemEnum = "post" | "comment";
 
 export type Subreddit = string;
 
-export interface Post {
+export type Post = {
   id: string;
   author: string;
   commentsCount: number;
@@ -16,17 +18,21 @@ export interface Post {
   url: string;
   domain: string;
   nsfw: boolean;
-}
+};
 
-export interface Comment {
+export type Comment = {
   id: string;
   author: string;
   body: string;
   created: number;
   score: number;
-}
+};
 
-export interface Thread {
+export type Thread = {
   post: Post;
   comments: Comment[];
-}
+};
+
+export type Settings = {
+  sorting: typeof SORTING_OPTIONS[number];
+};

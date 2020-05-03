@@ -1,5 +1,5 @@
 import axios from "axios";
-import { Nullable } from "../types";
+import { Nullable, Settings } from "../types";
 
 export interface RedditResponse<T> {
   kind: "Listing";
@@ -37,9 +37,12 @@ export interface CommentResponse {
   score: number;
 }
 
-export const fetchSubredditPosts = (subreddit: string) =>
+export const fetchSubredditPosts = (
+  subreddit: string,
+  sorting: Settings["sorting"]
+) =>
   axios.get<RedditResponse<PostResponse>>(
-    `https://www.reddit.com/r/${subreddit}/hot.json?limit=20`
+    `https://www.reddit.com/r/${subreddit}/${sorting}.json?limit=20`
   );
 
 export const fetchPostThread = (subreddit: string, postId: string) =>

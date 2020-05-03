@@ -5,7 +5,7 @@ import PostDetail from "./PostDetail";
 import PostList from "./PostList";
 import Sidebar from "./Sidebar";
 import { usePrevious } from "../libs/hooks";
-import { Nullable, Thread, Post, Subreddit } from "../types";
+import { Nullable, Thread, Post, Subreddit, Settings } from "../types";
 
 export interface ViewerProps {
   savedSubreddits: string[];
@@ -13,6 +13,7 @@ export interface ViewerProps {
   posts: Post[];
   expandedPost: Nullable<Thread>;
   isRedditBlocked: boolean;
+  settings: Settings;
 }
 
 const Viewer = ({
@@ -20,19 +21,17 @@ const Viewer = ({
   subreddit,
   posts,
   expandedPost,
-  isRedditBlocked
+  isRedditBlocked,
+  settings
 }: ViewerProps) => {
   const [isSidebarOpened, setIsSidebarOpened] = useState(false);
   const prevSubreddit = usePrevious<Subreddit>(subreddit);
 
-  useEffect(
-    () => {
-      if (subreddit !== prevSubreddit && isSidebarOpened) {
-        setIsSidebarOpened(false);
-      }
-    },
-    [isSidebarOpened]
-  );
+  useEffect(() => {
+    if (subreddit !== prevSubreddit && isSidebarOpened) {
+      setIsSidebarOpened(false);
+    }
+  }, [isSidebarOpened]);
 
   const openSidebar = () => {
     setIsSidebarOpened(true);
@@ -54,7 +53,11 @@ const Viewer = ({
         savedSubreddits={savedSubreddits}
       />
       <main className="content">
-        <AppBar subreddit={subreddit} openSidebar={openSidebar} />
+        <AppBar
+          subreddit={subreddit}
+          openSidebar={openSidebar}
+          settings={settings}
+        />
         <div className="row">
           <PostList
             subreddit={subreddit}
@@ -156,6 +159,33 @@ const Viewer = ({
           margin: 5px 0 0 0;
           border-left: 3px solid rgba(0, 0, 0, 0.15);
           padding: 0 0 0 8px;
+        }
+
+        .settings-modal-overlay {
+          background-color: 0;
+          position: absolute;
+          top: 0;
+          left: 0;
+          width: 100%;
+          height: 100%;
+          overflow: hidden;
+        }
+
+        .settings-modal {
+          font-family: Lato, sans-serif;
+          font-size: 15px;
+          font-variant-ligatures: common-ligatures;
+          -moz-osx-font-smoothing: grayscale;
+          -webkit-font-smoothing: antialiased;
+          box-shadow: 0 0 0 1px lightgrey, 0 4px 12px 0 rgba(0, 0, 0, 0.12);
+          color: rgb(29, 28, 29);
+          background-color: #f8f8f8;
+          border-radius: 6px;
+          user-select: none;
+          padding: 20px;
+          position: absolute;
+          right: 380px;
+          top: 50px;
         }
       `}</style>
     </div>
