@@ -19,7 +19,7 @@ class MyDocument extends Document {
             property="og:description"
             content="Slack-styled Reddit viewer"
           />
-          <link rel="icon" type="image/png" href="/static/icon-192x192.png" />
+          <link rel="icon" type="image/png" href="/icon-192x192.png" />
           <link
             href="https://fonts.googleapis.com/css?family=Lato:400,900"
             rel="stylesheet"
