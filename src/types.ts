@@ -36,3 +36,13 @@ export type Thread = {
 export type Settings = {
   sorting: typeof SORTING_OPTIONS[number];
 };
+
+export type PageProps = {
+  savedSubreddits: Subreddit[];
+  subreddit: Subreddit;
+  posts: Post[];
+  expandedPost: Nullable<Thread>;
+  settings: Settings;
+  error: Nullable<any>;
+  isRedditBlocked?: boolean;
+};

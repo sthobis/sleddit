@@ -185,7 +185,7 @@ const Sidebar = ({
                 <li key={subreddit}>
                   <Link
                     isRedditBlocked={isRedditBlocked}
-                    href={`/?subreddit=${subreddit}`}
+                    href={`/r/${subreddit}`}
                     className={`channel-item hover${
                       subreddit === activeSubreddit ? " active" : ""
                     }`}

@@ -5,16 +5,9 @@ import PostDetail from "./PostDetail";
 import PostList from "./PostList";
 import Sidebar from "./Sidebar";
 import { usePrevious } from "../libs/hooks";
-import { Nullable, Thread, Post, Subreddit, Settings } from "../types";
+import { Subreddit, PageProps } from "../types";
 
-type ViewerProps = {
-  savedSubreddits: string[];
-  subreddit: Subreddit;
-  posts: Post[];
-  expandedPost: Nullable<Thread>;
-  isRedditBlocked: boolean;
-  settings: Settings;
-};
+type ViewerProps = Omit<PageProps, "error">;
 
 const Viewer = ({
   savedSubreddits,

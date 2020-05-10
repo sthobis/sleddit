@@ -53,7 +53,7 @@ const PostItem = ({
     <div className={`post-item${active ? " active" : ""}`}>
       {type === "post" && (
         <Link
-          href={`/?subreddit=${subreddit}&postId=${id}`}
+          href={`/r/${subreddit}/comments/${id}`}
           className="post-link"
           aria-label={`go to ${title}`}
           isRedditBlocked={isRedditBlocked}
