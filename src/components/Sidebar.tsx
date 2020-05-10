@@ -60,7 +60,7 @@ const Sidebar = ({
 
   const handleKeyPress = (e: KeyboardEvent<HTMLInputElement>) => {
     if (e.which === 13) {
-      goToUrl(`/?subreddit=${subredditInput}`);
+      goToUrl(`/r/${subredditInput}`);
       addSubreddit(subredditInput);
     }
   };
