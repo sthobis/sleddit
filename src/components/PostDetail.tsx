@@ -45,7 +45,7 @@ const PostDetail = ({
           </span>
         </h2>
         <Link
-          href={`/?subreddit=${subreddit}`}
+          href={`/r/${subreddit}`}
           className="heading-close"
           aria-label="close"
           isRedditBlocked={isRedditBlocked}
